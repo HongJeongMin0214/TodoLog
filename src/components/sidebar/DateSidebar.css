@@ -1,0 +1,24 @@
+.date-sidebar {
+  width: 260px;
+  overflow: hidden;
+  transition: width 0.2s ease;
+  border-right: 1px solid #e5e7eb;
+}
+
+.date-sidebar--collapsed {
+  width: 56px;
+}
+
+.date-sidebar__content {
+  /* 사이드바를 접을 때 바깥 상자는 줄어들지만 안쪽 글자들은 줄어들지 못해 화면이 찌그러질 수 있어서
+  내용물의 너비로 고정 */
+  width: 260px;
+  white-space: nowrap;
+  transition: opacity 0.15s ease;
+}
+
+.date-sidebar--collapsed .date-sidebar__content {
+  /* 접었을 때 내용물을 투명하게 숨김. */
+  opacity: 0;
+  pointer-events: none;
+}
