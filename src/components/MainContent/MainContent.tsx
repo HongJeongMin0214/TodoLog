@@ -1,11 +1,11 @@
 import MemoPanel from './memo/MemoPanel'
 import CalendarPanel from './calendar/CalendarPanel'
 
-interface RightPanelProps {
+interface MainContentProps {
   mode: 'memo' | 'calendar'
 }
 
-function RightPanel({ mode }: RightPanelProps) {
+function MainContent({ mode }: MainContentProps) {
   return (
     <section className="right-panel">
       {mode === 'memo' ? <MemoPanel /> : <CalendarPanel />}
@@ -13,4 +13,4 @@ function RightPanel({ mode }: RightPanelProps) {
   )
 }
 
-export default RightPanel
+export default MainContent

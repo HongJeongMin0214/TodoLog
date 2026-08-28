@@ -1,25 +1,17 @@
 import { useState } from 'react'
-import DateSidebar from '../components/sidebar/DateSidebar'
-import DateTodoPanel from '../components/todo/DateTodoPanel'
-import RightPanel from '../components/right-panel/RightPanel'
+import TodoDrawer from '../components/TodoDrawer/TodoDrawer'
+import MainContent from '../components/MainContent/MainContent'
 import './TodoLogPage.css'
 
-type RightPanelMode = 'memo' | 'calendar'
+type MainContentMode = 'memo' | 'calendar'
 
 function TodoLogPage() {
-  const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>('memo')
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [MainContentMode] = useState<MainContentMode>('memo')
 
   return (
     <div className="todo-log-page">
-      <DateSidebar
-        isOpen={isSidebarOpen}
-        onToggleSidebar={() => setIsSidebarOpen((open) => !open)}
-        onSelectLogo={() => setRightPanelMode('memo')}
-        onSelectToday={() => setRightPanelMode('calendar')}
-      />
-      <DateTodoPanel />
-      <RightPanel mode={rightPanelMode} />
+      <TodoDrawer/>
+      <MainContent mode={MainContentMode} />
     </div>
   )
 }
