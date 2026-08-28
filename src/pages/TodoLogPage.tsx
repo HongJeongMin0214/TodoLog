@@ -4,16 +4,22 @@ import TodoDrawer from '../components/TodoDrawer/TodoDrawer'
 import MainContent from '../components/MainContent/MainContent'
 import './TodoLogPage.css'
 
-type MainContentMode = 'memo' | 'calendar'
+type MainView = 'calendar' | 'memo'
 
 function TodoLogPage() {
-  const [MainContentMode] = useState<MainContentMode>('memo')
+  const [isTodoDrawerOpen, setIsTodoDrawerOpen] = useState(true)
+  const [mainView, setMainView] = useState<MainView>('calendar')
 
   return (
     <div className="todo-log-page">
-      <ActivityBar />
-      <TodoDrawer/>
-      <MainContent mode={MainContentMode} />
+      <ActivityBar
+        isTodoDrawerOpen={isTodoDrawerOpen}
+        mainView={mainView}
+        onToggleTodoDrawer={() => setIsTodoDrawerOpen((open) => !open)}
+        onSelectMainView={setMainView}
+      />
+      <TodoDrawer isOpen={isTodoDrawerOpen} />
+      <MainContent mode={mainView} />
     </div>
   )
 }

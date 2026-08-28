@@ -1,0 +1,21 @@
+.todo-drawer {
+  width: 260px;
+  flex-shrink: 0;               /* flex가 폭 애니메이션을 방해하지 않게 */
+  height: 100vh;
+  box-sizing: border-box;
+  border-right: 1px solid var(--border);
+  overflow: hidden;             /* 줄어들 때 내용이 삐져나오지 않고 잘리게 */
+  transition: width 0.2s ease, border-color 0.2s ease;
+}
+
+.todo-drawer--collapsed {
+  width: 0;                     /* ActivityBar 옆에 딱 붙어 사라짐 */
+  border-right-color: transparent;
+}
+
+.todo-drawer__inner {
+  width: 260px;                 /* 고정 → 애니메이션 중 텍스트 줄바꿈 안 생김 */
+  height: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+}
