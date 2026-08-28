@@ -1,5 +1,9 @@
 .todo-log-page {
-  display: grid;
-  grid-template-columns: auto 1fr 1fr;
-  min-height: 100vh;
+  display: flex;
+  height: 100vh;
+}
+
+.todo-log-page > .right-panel {
+  flex: 1;
+  min-width: 0; /* flex 자식이 넘칠 때 찌그러지지 않게 */
 }
