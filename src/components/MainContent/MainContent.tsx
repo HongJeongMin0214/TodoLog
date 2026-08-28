@@ -7,7 +7,7 @@ interface MainContentProps {
 
 function MainContent({ mode }: MainContentProps) {
   return (
-    <section className="right-panel">
+    <section className="right-panel flex-1">
       {mode === 'memo' ? <MemoPanel /> : <CalendarPanel />}
     </section>
   )

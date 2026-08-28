@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ActivityBar from '../components/ActivityBar/ActivityBar'
 import TodoDrawer from '../components/TodoDrawer/TodoDrawer'
 import MainContent from '../components/MainContent/MainContent'
 import './TodoLogPage.css'
@@ -10,6 +11,7 @@ function TodoLogPage() {
 
   return (
     <div className="todo-log-page">
+      <ActivityBar />
       <TodoDrawer/>
       <MainContent mode={MainContentMode} />
     </div>
