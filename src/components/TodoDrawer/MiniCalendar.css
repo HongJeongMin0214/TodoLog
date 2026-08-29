@@ -1,0 +1,27 @@
+.mini-calendar { margin-top: 16px; user-select: none; }
+
+.mini-calendar__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px; font-size: 14px; color: var(--text-h);
+}
+.mini-calendar__header button {
+  border: none; background: none; cursor: pointer;
+  font-size: 16px; color: var(--text); padding: 4px 8px; border-radius: 6px;
+}
+.mini-calendar__header button:hover { background: var(--accent-bg); }
+
+.mini-calendar__grid {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;
+}
+.mini-calendar__weekday {
+  text-align: center; font-size: 11px; color: var(--text); padding: 4px 0;
+}
+.mini-calendar__day {
+  border: none; background: none; cursor: pointer;
+  aspect-ratio: 1; border-radius: 6px; font-size: 12px; color: var(--text-h);
+}
+.mini-calendar__day:hover { background: var(--accent-bg); }
+.mini-calendar__day--outside { color: var(--border); }
+.mini-calendar__day--today { font-weight: 700; color: var(--accent); }
+.mini-calendar__day--selected,
+.mini-calendar__day--selected:hover { background: var(--accent); color: #fff; }

@@ -4,13 +4,14 @@ import useTodos from '../../hooks/useTodos'
 import { todayKey } from '../../lib/date'
 import TodoList from './TodoList'
 import TodoInputForm from './TodoInputForm'
+import MiniCalendar from './MiniCalendar'
 
 interface TodoDrawerProps {
   isOpen: boolean
 }
 
 function TodoDrawer({ isOpen }: TodoDrawerProps) {
-  const [selectedDate] = useState<string>(() => todayKey())
+  const [selectedDate, setSelectedDate] = useState<string>(() => todayKey())
   const { getTodos, addTodo, toggleTodo, removeTodo } = useTodos()
 
   const todos = getTodos(selectedDate)
@@ -30,6 +31,8 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
           onToggle={(id) => toggleTodo(selectedDate, id)}
           onRemove={(id) => removeTodo(selectedDate, id)}
         />
+
+        <MiniCalendar selected={selectedDate} onSelect={setSelectedDate} />
       </div>
     </aside>
   )
