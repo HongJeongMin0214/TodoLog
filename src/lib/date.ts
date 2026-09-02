@@ -8,6 +8,15 @@ export function toDateKey(date: Date): string {
 
 export const todayKey = (): string => toDateKey(new Date());
 
+export const WEEKDAYS_KO = ['일', '월', '화', '수', '목', '금', '토'] as const;
+
+/** "YYYY-MM-DD" → "M/D 요일" (예: "2026-09-02" → "9/2 수") */
+export function formatShortDate(dateKey: string): string {
+  const [y, m, d] = dateKey.split('-').map(Number);
+  const weekday = WEEKDAYS_KO[new Date(y, m - 1, d).getDay()];
+  return `${m}/${d} ${weekday}`;
+}
+
 /** year, month(0-based)의 달력 그리드용 날짜 42칸(6주 × 7일). 앞뒤 달 일부 포함 */
 export function getCalendarDays(year: number, month: number): Date[] {
   const first = new Date(year, month, 1) // 요청받은 연도와 월의 1일에 해당하는 날짜 객체를 생성. ex) 2023년 6월 1일이면 new Date(2023, 5, 1) 6월인데 month가 0부터 시작하므로 5를 넣어야 함

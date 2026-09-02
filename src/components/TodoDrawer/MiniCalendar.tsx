@@ -1,13 +1,11 @@
 import { useState } from 'react'
 import './MiniCalendar.css'
-import { toDateKey, todayKey, getCalendarDays } from '../../lib/date'
+import { toDateKey, todayKey, getCalendarDays, WEEKDAYS_KO } from '../../lib/date'
 
 interface MiniCalendarProps {
   selected: string // "YYYY-MM-DD"
   onSelect: (dateKey: string) => void
 }
-
-const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토']
 
 function MiniCalendar({ selected, onSelect }: MiniCalendarProps) {
   // "지금 보고 있는 달"은 선택 날짜와 별개 관심사 → 캘린더 내부 상태
@@ -40,7 +38,7 @@ function MiniCalendar({ selected, onSelect }: MiniCalendarProps) {
       </div>
 
       <div className="mini-calendar__grid">
-        {WEEKDAYS.map((w) => (
+        {WEEKDAYS_KO.map((w) => (
           <span key={w} className="mini-calendar__weekday">{w}</span>
         ))}
 

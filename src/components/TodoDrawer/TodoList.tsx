@@ -10,7 +10,7 @@ interface TodoListProps {
 
 function TodoList({ todos, onToggle, onRemove }: TodoListProps) {
   if (todos.length === 0) {
-    return <p className="todo-list__empty">할 일이 없습니다</p>
+    return null
   }
 
   return (

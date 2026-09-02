@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './TodoDrawer.css'
 import useTodos from '../../hooks/useTodos'
-import { todayKey } from '../../lib/date'
+import { todayKey, formatShortDate } from '../../lib/date'
 import TodoList from './TodoList'
 import TodoInputForm from './TodoInputForm'
 import MiniCalendar from './MiniCalendar'
@@ -22,7 +22,12 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
       aria-hidden={!isOpen}
     >
       <div className="todo-drawer__inner">
-        <p className="todo-drawer__date">{selectedDate}</p>
+        <div className="todo-drawer__date">
+          <span>{formatShortDate(selectedDate)}</span>
+          {selectedDate === todayKey() && (
+            <span className="todo-drawer__today">오늘</span>
+          )}
+        </div>
 
         <TodoList
           todos={todos}
