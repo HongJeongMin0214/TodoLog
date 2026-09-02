@@ -9,7 +9,7 @@
 
 .category-nav button,
 .category-nav__add-input {
-  flex-shrink: 0; /* 버튼의 너비를 줄이지 100%로 유지 시켜 찌그러지지 않게 함 */
+  flex-shrink: 0; /* 버튼의 너비를 줄이지 않고 100%로 유지 시켜 찌그러지지 않게 함 */
   border: none;
   background: none;
   padding: 4px 10px;
@@ -35,4 +35,20 @@
   color: var(--text-h);
   outline: none;
   cursor: text;
+}
+
+/* 이름 편집 중: input + 삭제(×) 버튼을 한 덩어리로 */
+.category-nav__edit {
+  flex-shrink: 0;
+  display: inline-flex; /* 가로 너비를 자기 내용물 만큼만 차지하도록 */
+  align-items: center;
+  gap: 2px;
+}
+.category-nav__edit .category-nav__delete {
+  padding: 4px 6px;
+  line-height: 1; /* × 버튼의 세로 높이를 글자 높이와 맞춤 1:1로 */
+}
+.category-nav__edit .category-nav__delete:hover {
+  color: #e5484d;
+  background: rgba(229, 72, 77, 0.1);
 }

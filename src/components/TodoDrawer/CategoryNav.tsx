@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './CategoryNav.css'
 import type { Category } from '../../types/todo'
+import { DEFAULT_CATEGORY_ID } from '../../hooks/useCategories'
 
 interface CategoryNavProps {
   categories: Category[]
@@ -8,6 +9,7 @@ interface CategoryNavProps {
   onSelect: (id: string) => void
   onAddCategory: (name: string) => Category | null
   onRenameCategory: (id: string, name: string) => void
+  onRequestDelete: (id: string) => void // 삭제 확인 대화상자를 띄우도록 부모에 요청
 }
 
 function CategoryNav({
@@ -16,6 +18,7 @@ function CategoryNav({
   onSelect,
   onAddCategory,
   onRenameCategory,
+  onRequestDelete,
 }: CategoryNavProps) {
   const [adding, setAdding] = useState(false)
   const [name, setName] = useState('')
@@ -59,19 +62,37 @@ function CategoryNav({
       </button>
 
       {categories.map((category) =>
-        editingId === category.id ? ( // 현재 편집 중인 카테고리면 input 표시
-          <input
-            key={category.id}
-            className="category-nav__add-input"
-            autoFocus
-            value={editName}
-            onChange={(e) => setEditName(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') commitEdit()
-              if (e.key === 'Escape') cancelEdit()
-            }}
-            onBlur={cancelEdit} // 포커스가 사라지면 취소
-          />
+        editingId === category.id ? ( // 현재 편집 중인 카테고리면 input + 삭제 버튼 표시
+          <span key={category.id} className="category-nav__edit">
+            <input
+              className="category-nav__add-input"
+              autoFocus
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') commitEdit()
+                if (e.key === 'Escape') cancelEdit()
+              }}
+              onBlur={cancelEdit} // 포커스가 사라지면 취소
+            />
+            {category.id !== DEFAULT_CATEGORY_ID && (
+              <button
+                type="button"
+                className="category-nav__delete"
+                aria-label="카테고리 삭제"
+                // mousedown에서 preventDefault: input의 onBlur(취소)가 먼저 실행되는 것을 막음
+                onMouseDown={(e) => {
+                  // 삭제 버튼이 input 밖에 있기 때문에 input의 onBlur가 먼저 발동해 삭제 버튼이 사라지는 것을 방지
+                  // (preventDefault로 포커스 유출을 막아 onRequestDelete가 정상 실행되도록 보장)
+                  e.preventDefault()
+                  onRequestDelete(category.id)
+                  cancelEdit()
+                }}
+              >
+                ×
+              </button>
+            )}
+          </span>
         ) : (
           <button
             key={category.id}
