@@ -9,6 +9,7 @@
   font-size: 16px; color: var(--text); padding: 4px 8px; border-radius: 6px;
 }
 .mini-calendar__header button:hover { background: var(--accent-bg); }
+.mini-calendar__nav { display: flex; gap: 2px; }
 
 .mini-calendar__grid {
   display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;

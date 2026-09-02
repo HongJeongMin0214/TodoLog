@@ -32,9 +32,11 @@ function MiniCalendar({ selected, onSelect }: MiniCalendarProps) {
   return (
     <div className="mini-calendar">
       <div className="mini-calendar__header">
-        <button type="button" onClick={goPrev} aria-label="이전 달">‹</button>
         <span>{view.year}년 {view.month + 1}월</span>
-        <button type="button" onClick={goNext} aria-label="다음 달">›</button>
+        <div className="mini-calendar__nav">
+          <button type="button" onClick={goPrev} aria-label="이전 달">‹</button>
+          <button type="button" onClick={goNext} aria-label="다음 달">›</button>
+        </div>
       </div>
 
       <div className="mini-calendar__grid">

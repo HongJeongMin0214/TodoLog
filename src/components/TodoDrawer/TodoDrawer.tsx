@@ -24,14 +24,14 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
       <div className="todo-drawer__inner">
         <p className="todo-drawer__date">{selectedDate}</p>
 
-        <TodoInputForm onAdd={(text) => addTodo(selectedDate, text)} />
-
         <TodoList
           todos={todos}
           onToggle={(id) => toggleTodo(selectedDate, id)}
           onRemove={(id) => removeTodo(selectedDate, id)}
         />
 
+        <TodoInputForm onAdd={(text) => addTodo(selectedDate, text)} />
+        
         <MiniCalendar selected={selectedDate} onSelect={setSelectedDate} />
       </div>
     </aside>
