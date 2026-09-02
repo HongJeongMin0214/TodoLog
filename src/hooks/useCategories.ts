@@ -25,7 +25,12 @@ function useCategories() {
     )
   }
 
-  return { categories, addCategory, renameCategory }
+  const removeCategory = (id: string) => {
+    if (id === DEFAULT_CATEGORY_ID) return // 기본 카테고리는 삭제 불가
+    setCategories((prev) => prev.filter((c) => c.id !== id))
+  }
+
+  return { categories, addCategory, renameCategory, removeCategory }
 }
 
 export default useCategories
