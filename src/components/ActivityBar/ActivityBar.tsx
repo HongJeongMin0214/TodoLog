@@ -1,5 +1,5 @@
 import './ActivityBar.css';
-import { ListChecks, Calendar, NotebookPen } from 'lucide-react';
+import { CircleCheckBig , Calendar, NotebookPen } from 'lucide-react';
 
 type MainView = 'calendar' | 'memo';
 
@@ -25,7 +25,7 @@ function ActivityBar({
         aria-label="할 일 목록"
         aria-pressed={isTodoDrawerOpen}
       >
-        <ListChecks size={22} strokeWidth={1.75} />
+        <CircleCheckBig size={22} strokeWidth={1.75} />
       </button>
 
       <button

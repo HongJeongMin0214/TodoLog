@@ -1,0 +1,38 @@
+.category-nav {
+  display: flex;
+  gap: 4px;
+  margin: 12px 0;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefoxf에서 스크롤바 숨김*/
+}
+.category-nav::-webkit-scrollbar { display: none; } /* Chrome, Safari, Edge. 스크롤바 숨김 */
+
+.category-nav button,
+.category-nav__add-input {
+  flex-shrink: 0; /* 버튼의 너비를 줄이지 100%로 유지 시켜 찌그러지지 않게 함 */
+  border: none;
+  background: none;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap; /* 텍스트 줄바꿈하지 않고 한 줄로 유지 */
+}
+.category-nav button:hover { background: var(--accent-bg); }
+
+.category-nav__tab--active,
+.category-nav__tab--active:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.category-nav__add { color: var(--text); }
+
+.category-nav__add-input {
+  width: 72px;
+  background: var(--border);
+  color: var(--text-h);
+  outline: none;
+  cursor: text;
+}

@@ -1,0 +1,14 @@
+.todo-input-form { margin-top: 8px; }
+
+.todo-input-form input {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  background: var(--border);
+  color: var(--text-h);
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+.todo-input-form input::placeholder { color: var(--text); }

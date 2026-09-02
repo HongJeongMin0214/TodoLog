@@ -1,17 +1,33 @@
 import { useState } from 'react'
 import './TodoDrawer.css'
 import useTodos from '../../hooks/useTodos'
-import { todayKey } from '../../lib/date'
+import useCategories from '../../hooks/useCategories'
+import { todayKey, formatShortDate } from '../../lib/date'
+import TodoList from './TodoList'
+import TodoInputForm from './TodoInputForm'
+import MiniCalendar from './MiniCalendar'
+import CategoryNav from './CategoryNav'
+
+// "전체" 탭: 저장되는 카테고리가 아니라 특수 선택 상태
+const ALL = 'all'
 
 interface TodoDrawerProps {
   isOpen: boolean
 }
 
 function TodoDrawer({ isOpen }: TodoDrawerProps) {
-  const [selectedDate] = useState<string>(() => todayKey()) // 페이지가 처음 렌더링될 때 오늘 날짜를 선택된 날짜로 초기화 (setter는 8단계에서 되살림)
-  const { getTodos, addTodo } = useTodos()
+  const [selectedDate, setSelectedDate] = useState<string>(() => todayKey())
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>(ALL)
+  const { getTodos, addTodo, toggleTodo, removeTodo } = useTodos()
+  const { categories, addCategory, renameCategory } = useCategories()
 
   const todos = getTodos(selectedDate)
+
+  // "전체"면 모든 카테고리, 아니면 선택한 카테고리 하나만
+  const visibleCategories =
+    selectedCategoryId === ALL
+      ? categories
+      : categories.filter((c) => c.id === selectedCategoryId)
 
   return (
     <aside
@@ -19,13 +35,36 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
       aria-hidden={!isOpen}
     >
       <div className="todo-drawer__inner">
-        {/* 임시 확인용 — 다음 단계에서 TodoList/MiniCalendar로 교체 */}
-        <p>선택 날짜: {selectedDate}</p>
-        <p>할 일 {todos.length}개</p>
-        {/* 즉시 실행되는 것을 막기 위해 반드시 앞에 () =>를 붙여서 클릭 대기 상태로 포장 */}
-        <button type="button" onClick={() => addTodo(selectedDate, '테스트 할 일')}>
-          테스트 추가
-        </button>
+        <div className="todo-drawer__date">
+          <span>{formatShortDate(selectedDate)}</span>
+          {selectedDate === todayKey() && (
+            <span className="todo-drawer__today">오늘</span>
+          )}
+        </div>
+
+        <CategoryNav
+          categories={categories}
+          selectedId={selectedCategoryId}
+          onSelect={setSelectedCategoryId}
+          onAddCategory={addCategory}
+          onRenameCategory={renameCategory}
+        />
+
+        {visibleCategories.map((category) => (
+          <section key={category.id} className="todo-drawer__category">
+            <h3 className="todo-drawer__category-name">{category.name}</h3>
+            <TodoList
+              todos={todos.filter((t) => t.categoryId === category.id)}
+              onToggle={(id) => toggleTodo(selectedDate, id)}
+              onRemove={(id) => removeTodo(selectedDate, id)}
+            />
+            <TodoInputForm
+              onAdd={(text) => addTodo(selectedDate, category.id, text)}
+            />
+          </section>
+        ))}
+
+        <MiniCalendar selected={selectedDate} onSelect={setSelectedDate} />
       </div>
     </aside>
   )

@@ -19,3 +19,15 @@
   box-sizing: border-box;
   padding: 16px;
 }
+
+.todo-drawer__date {
+  display: flex; align-items: baseline; justify-content: space-between;
+}
+.todo-drawer__today {
+  font-size: 12px; color: var(--accent); font-weight: 700;
+}
+
+.todo-drawer__category { margin-top: 16px; }
+.todo-drawer__category-name {
+  margin: 0 0 6px; font-size: 13px; font-weight: 600; color: var(--text-h);
+}
