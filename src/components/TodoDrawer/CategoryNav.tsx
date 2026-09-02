@@ -33,9 +33,9 @@ function CategoryNav({
     cancelAdd()
   }
 
-  const startEdit = (id: string, current: string) => {
-    setEditingId(id)
-    setEditName(current)
+  const startEdit = (id: string, current: string) => { // id: 편집할 카테고리 id, current: 현재 이름            
+    setEditingId(id) // 지금 수정할 카테고리의 ID를 기억함. 여기서 editingId에 기존 카테고리의 id가 들어감.
+    setEditName(current)  // 현재 이름을 input에 표시
   }
 
   const cancelEdit = () => {
@@ -59,7 +59,7 @@ function CategoryNav({
       </button>
 
       {categories.map((category) =>
-        editingId === category.id ? (
+        editingId === category.id ? ( // 현재 편집 중인 카테고리면 input 표시
           <input
             key={category.id}
             className="category-nav__add-input"
