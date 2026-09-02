@@ -62,7 +62,7 @@ function CategoryNav({
             if (e.key === 'Enter') commitAdd()
             if (e.key === 'Escape') cancelAdd()
           }}
-          onBlur={cancelAdd}
+          onBlur={cancelAdd} // 포커스가 사라지면 취소
           placeholder="카테고리"
         />
       ) : (

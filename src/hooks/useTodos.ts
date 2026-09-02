@@ -9,10 +9,10 @@ function useTodos() {
   const addTodo = (dateKey: string, categoryId: string, text: string) => {
     const trimmed = text.trim()
     if (!trimmed) return // 공백만 있는 경우 무시
-    const todo: Todo = { id: crypto.randomUUID(), text: trimmed, done: false, categoryId }
-    setTodosByDate((prev) => ({
+    const todo: Todo = { id: crypto.randomUUID(), text: trimmed, done: false, categoryId } // categoryId는 임시로 'default'로 설정
+    setTodosByDate((prev) => ({ // 소괄호 ()로 감싸야 객체를 반환 return
       ...prev, // 다른 날짜의 할 일 목록은 그대로 두고, 
-      [dateKey]: [...(prev[dateKey] ?? []), todo], // 해당 날짜의 할 일 목록만 업데이트
+      [dateKey]: [...(prev[dateKey] ?? []), todo], // 해당 날짜의 기존 할 일 배열(['청소하기', '운동하기'])을 ...으로 펼치고 그 맨뒤에 todo를 붙여 완전히 새 배열 만들기.해당 날짜의 할 일 목록만 업데이트
     }))
   }
 
