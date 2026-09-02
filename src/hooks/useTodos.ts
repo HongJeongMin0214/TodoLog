@@ -6,10 +6,10 @@ function useTodos() {
 
   const getTodos = (dateKey: string): Todo[] => todosByDate[dateKey] ?? []
 
-  const addTodo = (dateKey: string, text: string) => {
+  const addTodo = (dateKey: string, categoryId: string, text: string) => {
     const trimmed = text.trim()
     if (!trimmed) return // 공백만 있는 경우 무시
-    const todo: Todo = { id: crypto.randomUUID(), text: trimmed, done: false }
+    const todo: Todo = { id: crypto.randomUUID(), text: trimmed, done: false, categoryId }
     setTodosByDate((prev) => ({
       ...prev, // 다른 날짜의 할 일 목록은 그대로 두고, 
       [dateKey]: [...(prev[dateKey] ?? []), todo], // 해당 날짜의 할 일 목록만 업데이트
