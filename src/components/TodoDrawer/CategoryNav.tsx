@@ -7,6 +7,7 @@ interface CategoryNavProps {
   selectedId: string // "all" 또는 category.id
   onSelect: (id: string) => void
   onAddCategory: (name: string) => Category | null
+  onRenameCategory: (id: string, name: string) => void
 }
 
 function CategoryNav({
@@ -14,9 +15,12 @@ function CategoryNav({
   selectedId,
   onSelect,
   onAddCategory,
+  onRenameCategory,
 }: CategoryNavProps) {
   const [adding, setAdding] = useState(false)
   const [name, setName] = useState('')
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editName, setEditName] = useState('')
 
   const cancelAdd = () => {
     setAdding(false)
@@ -29,6 +33,21 @@ function CategoryNav({
     cancelAdd()
   }
 
+  const startEdit = (id: string, current: string) => {
+    setEditingId(id)
+    setEditName(current)
+  }
+
+  const cancelEdit = () => {
+    setEditingId(null)
+    setEditName('')
+  }
+
+  const commitEdit = () => {
+    if (editingId) onRenameCategory(editingId, editName)
+    cancelEdit()
+  }
+
   return (
     <div className="category-nav">
       <button
@@ -39,18 +58,34 @@ function CategoryNav({
         전체
       </button>
 
-      {categories.map((category) => (
-        <button
-          key={category.id}
-          type="button"
-          className={
-            selectedId === category.id ? 'category-nav__tab--active' : ''
-          }
-          onClick={() => onSelect(category.id)}
-        >
-          {category.name}
-        </button>
-      ))}
+      {categories.map((category) =>
+        editingId === category.id ? (
+          <input
+            key={category.id}
+            className="category-nav__add-input"
+            autoFocus
+            value={editName}
+            onChange={(e) => setEditName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') commitEdit()
+              if (e.key === 'Escape') cancelEdit()
+            }}
+            onBlur={cancelEdit} // 포커스가 사라지면 취소
+          />
+        ) : (
+          <button
+            key={category.id}
+            type="button"
+            className={
+              selectedId === category.id ? 'category-nav__tab--active' : ''
+            }
+            onClick={() => onSelect(category.id)}
+            onDoubleClick={() => startEdit(category.id, category.name)} // 더블클릭으로 이름 변경
+          >
+            {category.name}
+          </button>
+        ),
+      )}
 
       {adding ? (
         <input

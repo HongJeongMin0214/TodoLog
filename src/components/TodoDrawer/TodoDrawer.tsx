@@ -19,7 +19,7 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
   const [selectedDate, setSelectedDate] = useState<string>(() => todayKey())
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>(ALL)
   const { getTodos, addTodo, toggleTodo, removeTodo } = useTodos()
-  const { categories, addCategory } = useCategories()
+  const { categories, addCategory, renameCategory } = useCategories()
 
   const todos = getTodos(selectedDate)
 
@@ -47,6 +47,7 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
           selectedId={selectedCategoryId}
           onSelect={setSelectedCategoryId}
           onAddCategory={addCategory}
+          onRenameCategory={renameCategory}
         />
 
         {visibleCategories.map((category) => (
