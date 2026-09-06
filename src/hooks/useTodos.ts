@@ -32,7 +32,49 @@ function useTodos() {
     }))
   }
 
-  return { todosByDate, getTodos, addTodo, toggleTodo, removeTodo }
+  // 아래 3개는 카테고리 삭제 시 사용. 투두가 여러 날짜에 흩어져 있으므로 전 날짜 버킷을 순회한다.
+
+  const countTodosByCategory = (categoryId: string): number =>
+    Object.values(todosByDate).reduce(
+      (sum, list) => sum + list.filter((t) => t.categoryId === categoryId).length,
+      0,
+    )
+
+  const deleteTodosByCategory = (categoryId: string) => {
+    setTodosByDate((prev) =>
+      Object.fromEntries( // 3단계 가공된 [key, value] 배열을 Object.fromEntries(배열)로 원래 하나의 객체{키1:값1, 키2:값2}로 변환
+        // Object.entries(객체)로 객체를 [key, value] 배열로 변환. 1단계 prev 객체를 [date, list(할일목록)] 배열로 변환. 
+        Object.entries(prev).map(([date, list]) => [ // 2단계 각 날짜 배열에서 해당 카테고리만 제거
+          date,
+          list.filter((t) => t.categoryId !== categoryId),
+        ]),
+      ),
+    )
+  }
+
+  const reassignTodosByCategory = (fromId: string, toId: string) => { //fromId: 삭제할 카테고리, toId: 재할당할 카테고리
+    setTodosByDate((prev) =>
+      Object.fromEntries(
+        Object.entries(prev).map(([date, list]) => [
+          date,
+          list.map((t) =>
+            t.categoryId === fromId ? { ...t, categoryId: toId } : t,
+          ),
+        ]),
+      ),
+    )
+  }
+
+  return {
+    todosByDate,
+    getTodos,
+    addTodo,
+    toggleTodo,
+    removeTodo,
+    countTodosByCategory,
+    deleteTodosByCategory,
+    reassignTodosByCategory,
+  }
 }
 
 export default useTodos
