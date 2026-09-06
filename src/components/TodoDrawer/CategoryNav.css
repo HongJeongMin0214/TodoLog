@@ -3,9 +3,17 @@
   gap: 4px;
   margin: 12px 0;
   overflow-x: auto;
-  scrollbar-width: none; /* Firefoxf에서 스크롤바 숨김*/
+  overflow-y: hidden;
+  padding-bottom: 4px; /* 스크롤바와 탭이 겹치지 않게 */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--border) transparent; /* 텀 / 트랙(투명) */
 }
-.category-nav::-webkit-scrollbar { display: none; } /* Chrome, Safari, Edge. 스크롤바 숨김 */
+/* Chrome, Safari, Edge */
+.category-nav::-webkit-scrollbar { height: 6px; }
+.category-nav::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
 
 .category-nav button,
 .category-nav__add-input {
