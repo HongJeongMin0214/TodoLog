@@ -1,0 +1,38 @@
+.completed-section {
+  margin-top: 16px;
+}
+
+.completed-section__bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  background: none;
+  padding: 6px 0;
+  cursor: pointer;
+  color: var(--text-h);
+}
+
+.completed-section__title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.completed-section__chevron {
+  color: var(--text);
+  transition: transform 0.15s ease;
+}
+.completed-section__chevron.is-open {
+  transform: rotate(180deg);
+}
+
+.completed-section__group {
+  margin-top: 10px;
+}
+.completed-section__group-name {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}

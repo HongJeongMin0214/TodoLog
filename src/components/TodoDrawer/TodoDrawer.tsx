@@ -7,9 +7,10 @@ import TodoList from './TodoList'
 import TodoInputForm from './TodoInputForm'
 import MiniCalendar from './MiniCalendar'
 import CategoryNav from './CategoryNav'
+import CompletedSection from './CompletedSection'
 import DeleteCategoryDialog from './DeleteCategoryDialog'
 
-// "전체" 탭: 저장되는 카테고리가 아니라 특수 선택 상태
+// "전체" 탭
 const ALL = 'all'
 
 interface TodoDrawerProps {
@@ -77,7 +78,9 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
             <section key={category.id} className="todo-drawer__category">
               <h3 className="todo-drawer__category-name">{category.name}</h3>
               <TodoList
-                todos={todos.filter((t) => t.categoryId === category.id)}
+                todos={todos.filter(
+                  (t) => t.categoryId === category.id && !t.done,
+                )}
                 onToggle={(id) => toggleTodo(selectedDate, id)}
                 onRemove={(id) => removeTodo(selectedDate, id)}
               />
@@ -86,6 +89,13 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
               />
             </section>
           ))}
+
+          <CompletedSection
+            categories={visibleCategories}
+            todos={todos}
+            onToggle={(id) => toggleTodo(selectedDate, id)}
+            onRemove={(id) => removeTodo(selectedDate, id)}
+          />
         </div>
 
         <MiniCalendar selected={selectedDate} onSelect={setSelectedDate} />
