@@ -72,19 +72,21 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
           onRequestDelete={setPendingDeleteId}
         />
 
-        {visibleCategories.map((category) => (
-          <section key={category.id} className="todo-drawer__category">
-            <h3 className="todo-drawer__category-name">{category.name}</h3>
-            <TodoList
-              todos={todos.filter((t) => t.categoryId === category.id)}
-              onToggle={(id) => toggleTodo(selectedDate, id)}
-              onRemove={(id) => removeTodo(selectedDate, id)}
-            />
-            <TodoInputForm
-              onAdd={(text) => addTodo(selectedDate, category.id, text)}
-            />
-          </section>
-        ))}
+        <div className="todo-drawer__scroll">
+          {visibleCategories.map((category) => (
+            <section key={category.id} className="todo-drawer__category">
+              <h3 className="todo-drawer__category-name">{category.name}</h3>
+              <TodoList
+                todos={todos.filter((t) => t.categoryId === category.id)}
+                onToggle={(id) => toggleTodo(selectedDate, id)}
+                onRemove={(id) => removeTodo(selectedDate, id)}
+              />
+              <TodoInputForm
+                onAdd={(text) => addTodo(selectedDate, category.id, text)}
+              />
+            </section>
+          ))}
+        </div>
 
         <MiniCalendar selected={selectedDate} onSelect={setSelectedDate} />
       </div>
