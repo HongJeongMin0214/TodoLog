@@ -17,13 +17,13 @@ function DeleteCategoryDialog({
   onCancel,
 }: DeleteCategoryDialogProps) {
   // Esc 로 취소
-  useEffect(() => {
+  useEffect(() => { // 1. () => {} : 컴포넌트가 화면에 렌더링된 후 실행할 코드
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onCancel()
     }
-    window.addEventListener('keydown', onKey)
+    window.addEventListener('keydown', onKey) // 브라우저 창 전체에 keydown 이벤트 리스너 등록.
     return () => window.removeEventListener('keydown', onKey)
-  }, [onCancel])
+  }, [onCancel]) // 2. [] : 의존성 배열. []이면 처음 렌더링될 때만 실행. [onCancel]이면 onCancel이 바뀔 때마다 실행
 
   const hasTodos = todoCount > 0
 
@@ -33,6 +33,8 @@ function DeleteCategoryDialog({
         className="delete-category-dialog"
         role="dialog"
         aria-modal="true"
+        // 웹 브라우저는 자식 요소를 클릭하면 부모 요소에도 타고 올라가는데 이를 이벤트 버블링이라 함. e.stopPropagation(): 이벤트 버블링을 막아 부모 요소의 onClick이 실행되지 않음.
+        // 모달 내부를 클릭했는데도 클릭 이벤트가 부모인 뒷 배경을 타고 올라가서 모달 창이 꺼짐. e.stopPropargation을 쓰면 모달 내부를 클릭할 때 클린 신호가 바깥 배경으로 전달되지 않아 모달이 꺼지지 않음. 오직 바깥 배경을 클릭했을 때만 모달이 꺼짐.
         onClick={(e) => e.stopPropagation()} // 박스 안 클릭은 닫힘으로 이어지지 않게
       >
         <p className="delete-category-dialog__message">
