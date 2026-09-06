@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './CategoryNav.css'
 import type { Category } from '../../types/todo'
 import { DEFAULT_CATEGORY_ID } from '../../hooks/useCategories'
@@ -24,6 +24,22 @@ function CategoryNav({
   const [name, setName] = useState('')
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editName, setEditName] = useState('')
+  const navRef = useRef<HTMLDivElement>(null)
+
+  // 세로 마우스 휠 → 카테고리 바 가로 스크롤
+  useEffect(() => {
+    const el = navRef.current
+    if (!el) return
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return 
+      if (el.scrollWidth <= el.clientWidth) return // 넘칠 때만 소비
+      e.preventDefault() // 세로 스크롤 막기
+      el.scrollLeft += e.deltaY // 세로로 굴린 휠 값(deltaY)을 가로 스크롤 위치(scrollLegt)에 더해줌. 
+    }
+    // React onWheel은 passive라 preventDefault가 안 먹으므로 네이티브(addEventlistener)로 등록
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
 
   const cancelAdd = () => {
     setAdding(false)
@@ -52,7 +68,7 @@ function CategoryNav({
   }
 
   return (
-    <div className="category-nav">
+    <div className="category-nav" ref={navRef}>
       <button
         type="button"
         className={selectedId === 'all' ? 'category-nav__tab--active' : ''}
