@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px; padding: 4px 0;
+  font-size: 14px; /* 카테고리 버튼과 맞춤 (루트 18px 상속 대신) */
 }
 .todo-item label {
   display: flex; align-items: center; gap: 8px;

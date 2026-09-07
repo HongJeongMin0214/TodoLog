@@ -9,6 +9,6 @@
   color: var(--text-h);
   padding: 8px 10px;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 14px;
 }
 .todo-input-form input::placeholder { color: var(--text); }

@@ -1,4 +1,5 @@
 import type { Todo } from '../../types/todo'
+import { X }  from 'lucide-react'
 
 interface TodoItemProps {
   todo: Todo
@@ -20,7 +21,7 @@ function TodoItem({ todo, onToggle, onRemove }: TodoItemProps) {
         </span>
       </label>
       <button type="button" onClick={() => onRemove(todo.id)} aria-label="삭제">
-        ×
+        <X size={14} />
       </button>
     </li>
   )
