@@ -16,7 +16,8 @@ interface TodoDrawerProps {
 }
 
 function TodoDrawer({ isOpen }: TodoDrawerProps) {
-  // 선택 상태(날짜·카테고리)는 캘린더와 공유하므로 store에서 가져온다
+  // 선택한 날짜는 메인 패널의 캘린더 화면과도 공유하므로 store에서 가져온다
+  // (선택 카테고리도 같은 선택 상태라 함께 store에 둠 — 현재는 드로어에서만 사용)
   const selectedDate = useSelectionStore((s) => s.selectedDate)
   const setSelectedDate = useSelectionStore((s) => s.setSelectedDate)
   const selectedCategoryId = useSelectionStore((s) => s.selectedCategoryId)
