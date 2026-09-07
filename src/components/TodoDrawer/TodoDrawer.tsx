@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './TodoDrawer.css'
 import useTodos from '../../hooks/useTodos'
 import useCategories, { DEFAULT_CATEGORY_ID } from '../../hooks/useCategories'
+import useSelectionStore, { ALL_CATEGORIES } from '../../store/useSelectionStore'
 import { todayKey, formatShortDate } from '../../lib/date'
 import TodoList from './TodoList'
 import TodoInputForm from './TodoInputForm'
@@ -10,16 +11,16 @@ import CategoryNav from './CategoryNav'
 import CompletedSection from './CompletedSection'
 import DeleteCategoryDialog from './DeleteCategoryDialog'
 
-// "전체" 탭
-const ALL = 'all'
-
 interface TodoDrawerProps {
   isOpen: boolean
 }
 
 function TodoDrawer({ isOpen }: TodoDrawerProps) {
-  const [selectedDate, setSelectedDate] = useState<string>(() => todayKey())
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>(ALL)
+  // 선택 상태(날짜·카테고리)는 캘린더와 공유하므로 store에서 가져온다
+  const selectedDate = useSelectionStore((s) => s.selectedDate)
+  const setSelectedDate = useSelectionStore((s) => s.setSelectedDate)
+  const selectedCategoryId = useSelectionStore((s) => s.selectedCategoryId)
+  const setSelectedCategoryId = useSelectionStore((s) => s.setSelectedCategoryId)
   // 어떤 카테고리를 삭제할지 기억(pending)해야 함. DeleteCategoryDialog을 띄워 사용자의 선택을 기다려야 하기 때문
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null) // 삭제 확인 대기 중인 카테고리 id (null이면 대화상자 닫힘)
   const {
@@ -38,7 +39,7 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
 
   // "전체"면 모든 카테고리, 아니면 선택한 카테고리 하나만
   const visibleCategories =
-    selectedCategoryId === ALL
+    selectedCategoryId === ALL_CATEGORIES
       ? categories
       : categories.filter((c) => c.id === selectedCategoryId)
 
@@ -47,7 +48,7 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
   // 카테고리 삭제 마무리: 카테고리 제거 + 선택 상태 정리 + 대화상자 닫기
   const finishDelete = (id: string) => {
     removeCategory(id)
-    if (selectedCategoryId === id) setSelectedCategoryId(ALL)
+    if (selectedCategoryId === id) setSelectedCategoryId(ALL_CATEGORIES)
     setPendingDeleteId(null) // 삭제 확인 대기 중인 카테고리 id를 null로 바꿔 대화상자 닫기
   }
 
