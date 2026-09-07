@@ -12,6 +12,36 @@
   flex: 1;
   text-align: left; cursor: pointer;
 }
+
+.todo-item input[type='checkbox'] {
+  appearance: none; /* 기본 체크박스 스타일 제거 */ 
+  -webkit-appearance: none;
+  flex-shrink: 0;
+  width: 16px; height: 16px;
+  margin: 0;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  display: grid; /* 체크 표시를 가운데에 위치시키기 위해 grid 사용 */
+  place-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.todo-item input[type='checkbox']::before { /* 선택한 요소의 맨 앞(내부 시작 지점)에 가상의 빈 공간(상자)를 만들어라. appearanceL none으로 기본 네모 상자를 지웠으니까 새로 만들기 위함 */
+  content: '';
+  width: 4px; height: 8px;
+  margin-top: -2px;
+  border: solid #000;
+  border-width: 0 1px 1px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.15s ease;
+}
+.todo-item input[type='checkbox']:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.todo-item input[type='checkbox']:checked::before {
+  transform: rotate(45deg) scale(1);
+}
 .todo-item__text { color: var(--text-h); }
 .todo-item__text--done { color: var(--border); text-decoration: line-through; }
 
