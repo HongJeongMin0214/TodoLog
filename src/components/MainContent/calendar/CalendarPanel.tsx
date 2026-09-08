@@ -52,7 +52,7 @@ function CalendarPanel() {
         onToday={goToday}
         onCycleViewMode={cycleViewMode}
       />
-      <CalendarGrid />
+      <CalendarGrid year={view.year} month={view.month} />
     </div>
   )
 }

@@ -1,9 +1,13 @@
+/* 캘린더 안에서는 테두리가 칸 너비 안쪽으로 그려지도록 (그리드 칸 정렬 어긋남 방지) */
+.calendar-panel,
+.calendar-panel * {
+  box-sizing: border-box; /* 테두리·패딩을 포함한 크기 계산. 전체 크기가 커져서 찌그러짐 방지 */
+}
+
 .calendar-panel {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding: 16px;
-  box-sizing: border-box; /* 패딩 포함한 높이 계산 */
+  height: 100vh;
 }
 
 /* 왼쪽 빈칸(1fr) · 가운데 연월 그룹(auto) · 오른쪽 버튼 그룹(1fr) */
@@ -11,7 +15,7 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr; /* 3등분 */
   align-items: center;
-  margin-bottom: 12px;
+  padding: 12px 16px;
 }
 
 .calendar-header__month {
@@ -78,5 +82,86 @@
   padding: 2px;
 }
 .calendar-header__month button:hover {
+  color: var(--text-h);
+}
+
+/* ── 그리드 ── */
+.calendar-grid {
+  flex: 1; /* 남은 공간을 모두 차지 */
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* 부모 요소가 줄어들 때 자식도 줄어들 수 있게. 최소 높이 제한을 풀고 0으로 */
+}
+
+.calendar-grid__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+
+.calendar-grid__weekday {
+  padding: 6px 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text);}
+
+.calendar-grid__body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, minmax(0, 1fr)); /* 6행 균등 → 각 칸 고정 높이 */
+  min-height: 0;
+}
+
+/* ── 날짜 칸 ── */
+.calendar-date-cell {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* 부모 요소만큼 꽉 차게 */
+  gap: 2px; /* 날짜 숫자와 일정 목록 사이 간격 */
+  padding: 4px;
+  border: none;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: none;
+  font: inherit; /* inherit: 부모 요소의 폰트 스타일을 그대로 상속받음 */
+  text-align: left; 
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+/* 바깥 프레임을 없앴으니 맨 오른쪽 열·맨 아래 행의 칸 테두리도 제거 */
+.calendar-date-cell:nth-child(7n) { /* 7n: 7의 배수 번째 칸 */
+  border-right: none;
+}
+.calendar-date-cell:nth-last-child(-n + 7) { /* -n + 7: 맨 아래줄 */
+  border-bottom: none;
+}
+
+.calendar-date-cell--selected {
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+}
+
+.calendar-date-cell__num {
+  align-self: flex-start;
+  width: 22px;
+  height: 22px;
+  display: inline-flex; /* inline-flex: 내용물 크기만큼만 줄어들며 다른 요소들과 나란히 한줄에 배치됨 */
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.calendar-date-cell--outside .calendar-date-cell__num {
+  color: #bbbbbb;
+}
+
+.calendar-date-cell--today .calendar-date-cell__num {
+  background: var(--accent);
   color: var(--text-h);
 }
