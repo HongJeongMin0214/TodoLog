@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './TodoDrawer.css'
-import useTodos from '../../hooks/useTodos'
+import useTodoStore from '../../store/useTodoStore'
 import useCategoryStore, {
   DEFAULT_CATEGORY_ID,
 } from '../../store/useCategoryStore'
@@ -26,21 +26,19 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
   const setSelectedCategoryId = useSelectionStore((s) => s.setSelectedCategoryId)
   // 어떤 카테고리를 삭제할지 기억(pending)해야 함. DeleteCategoryDialog을 띄워 사용자의 선택을 기다려야 하기 때문
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null) // 삭제 확인 대기 중인 카테고리 id (null이면 대화상자 닫힘)
-  const {
-    getTodos,
-    addTodo,
-    toggleTodo,
-    removeTodo,
-    countTodosByCategory,
-    deleteTodosByCategory,
-    reassignTodosByCategory,
-  } = useTodos()
+  const todosByDate = useTodoStore((s) => s.todosByDate)
+  const addTodo = useTodoStore((s) => s.addTodo)
+  const toggleTodo = useTodoStore((s) => s.toggleTodo)
+  const removeTodo = useTodoStore((s) => s.removeTodo)
+  const countTodosByCategory = useTodoStore((s) => s.countTodosByCategory)
+  const deleteTodosByCategory = useTodoStore((s) => s.deleteTodosByCategory)
+  const reassignTodosByCategory = useTodoStore((s) => s.reassignTodosByCategory)
   const categories = useCategoryStore((s) => s.categories)
   const addCategory = useCategoryStore((s) => s.addCategory)
   const renameCategory = useCategoryStore((s) => s.renameCategory)
   const removeCategory = useCategoryStore((s) => s.removeCategory)
 
-  const todos = getTodos(selectedDate)
+  const todos = todosByDate[selectedDate] ?? []
 
   // "전체"면 모든 카테고리, 아니면 선택한 카테고리 하나만
   const visibleCategories =
