@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import './CategoryNav.css'
 import type { Category } from '../../types/todo'
-import { DEFAULT_CATEGORY_ID } from '../../hooks/useCategories'
+import { DEFAULT_CATEGORY_ID } from '../../store/useCategoryStore'
 import { X }  from 'lucide-react'
 
 interface CategoryNavProps {

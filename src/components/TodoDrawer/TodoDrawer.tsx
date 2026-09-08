@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import './TodoDrawer.css'
 import useTodos from '../../hooks/useTodos'
-import useCategories, { DEFAULT_CATEGORY_ID } from '../../hooks/useCategories'
+import useCategoryStore, {
+  DEFAULT_CATEGORY_ID,
+} from '../../store/useCategoryStore'
 import useSelectionStore, { ALL_CATEGORIES } from '../../store/useSelectionStore'
 import { todayKey, formatShortDate } from '../../lib/date'
 import TodoList from './TodoList'
@@ -33,8 +35,10 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
     deleteTodosByCategory,
     reassignTodosByCategory,
   } = useTodos()
-  const { categories, addCategory, renameCategory, removeCategory } =
-    useCategories()
+  const categories = useCategoryStore((s) => s.categories)
+  const addCategory = useCategoryStore((s) => s.addCategory)
+  const renameCategory = useCategoryStore((s) => s.renameCategory)
+  const removeCategory = useCategoryStore((s) => s.removeCategory)
 
   const todos = getTodos(selectedDate)
 
