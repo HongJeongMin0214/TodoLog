@@ -7,40 +7,25 @@
   gap: 8px; padding: 4px 0;
   font-size: 14px; /* 카테고리 버튼과 맞춤 (루트 18px 상속 대신) */
 }
-.todo-item label {
-  display: flex; align-items: center; gap: 8px;
+.todo-item__toggle {
   flex: 1;
-  text-align: left; cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  border: none; background: none; padding: 0;
+  font: inherit; text-align: left; cursor: pointer;
 }
 
-.todo-item input[type='checkbox'] {
-  appearance: none; /* 기본 체크박스 스타일 제거 */ 
-  -webkit-appearance: none;
+.todo-item__box {
   flex-shrink: 0;
   width: 16px; height: 16px;
-  margin: 0;
-  border: 2px solid var(--border);
+  border: 1px solid var(--text-faint);
   border-radius: 50%;
-  display: grid; /* 체크 표시를 가운데에 위치시키기 위해 grid 사용 */
-  place-content: center;
-  cursor: pointer;
+  display: grid; place-content: center;
+  color: var(--text-h); /* <Check> 아이콘 색 (검정) */
   transition: background 0.15s ease, border-color 0.15s ease;
 }
-.todo-item input[type='checkbox']::before { /* 선택한 요소의 맨 앞(내부 시작 지점)에 가상의 빈 공간(상자)를 만들어라. appearanceL none으로 기본 네모 상자를 지웠으니까 새로 만들기 위함 */
-  content: '';
-  width: 4px; height: 8px;
-  margin-top: -2px;
-  border: solid #000;
-  border-width: 0 1px 1px 0;
-  transform: rotate(45deg) scale(0);
-  transition: transform 0.15s ease;
-}
-.todo-item input[type='checkbox']:checked {
+.todo-item__toggle[aria-checked='true'] .todo-item__box { /* 체크되면 배경색과 테두리 색을 강조색으로 바꿈 */
   background: var(--accent);
   border-color: var(--accent);
-}
-.todo-item input[type='checkbox']:checked::before {
-  transform: rotate(45deg) scale(1);
 }
 .todo-item__text { color: var(--text-h); }
 .todo-item__text--done { color: var(--text-faint); text-decoration: line-through; }
@@ -48,7 +33,5 @@
 .todo-item button {
   border: none; background: none; cursor: pointer;
   color: var(--text); font-size: 14px; padding: 2px 6px; border-radius: 4px;
-  opacity: 0; transition: opacity 0.15s ease;
 }
-.todo-item:hover button { opacity: 1; }
 .todo-item button:hover { background: var(--hover); }

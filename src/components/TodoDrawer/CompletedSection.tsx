@@ -22,7 +22,6 @@ function CompletedSection({
   // 보이는 카테고리에 속한 완료 할 일만 (개수 표시와 펼친 내용이 일치하도록)
   const visibleIds = new Set(categories.map((c) => c.id))
   const done = todos.filter((t) => t.done && visibleIds.has(t.categoryId))
-  if (done.length === 0) return null
 
   // 보이는 카테고리 순서대로, 완료 항목이 있는 것만 (입력 순서 유지)
   const groups = categories
