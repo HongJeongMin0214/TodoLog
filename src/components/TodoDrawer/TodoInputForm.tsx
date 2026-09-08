@@ -22,6 +22,7 @@ function TodoInputForm({ onAdd }: TodoInputFormProps) {
         type="text"
         value={text}
         onChange={(e) => setText(e.target.value)} // e.target: 이벤트가 발생한 해당 입력창 태그(input) 자체
+        onBlur={() => setText('')} // 제출 안 하고 딴 곳 클릭하면 입력값 초기화 (placeholder 다시 보이게)
         placeholder=" + 일정 추가"
       />
     </form>
