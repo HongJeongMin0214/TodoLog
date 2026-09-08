@@ -9,6 +9,7 @@ interface TodoState {
   todosByDate: TodosByDate // key: "YYYY-MM-DD"
   addTodo: (dateKey: string, categoryId: string, text: string) => void
   toggleTodo: (dateKey: string, id: string) => void
+  editTodo: (dateKey: string, id: string, text: string) => void
   removeTodo: (dateKey: string, id: string) => void
   // 아래 3개는 카테고리 삭제 시 사용. 투두가 여러 날짜에 흩어져 있으므로 전 날짜 버킷을 순회한다.
   countTodosByCategory: (categoryId: string) => number
@@ -47,6 +48,19 @@ const useTodoStore = create<TodoState>()(
             ...state.todosByDate,
             [dateKey]: (state.todosByDate[dateKey] ?? []).map((t) =>
               t.id === id ? { ...t, done: !t.done } : t,
+            ),
+          },
+        }))
+      },
+
+      editTodo: (dateKey, id, text) => {
+        const trimmed = text.trim()
+        if (!trimmed) return // 빈 내용으로는 수정하지 않음
+        set((state) => ({
+          todosByDate: {
+            ...state.todosByDate,
+            [dateKey]: (state.todosByDate[dateKey] ?? []).map((t) =>
+              t.id === id ? { ...t, text: trimmed } : t,
             ),
           },
         }))

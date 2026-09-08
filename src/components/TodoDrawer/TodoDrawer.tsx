@@ -29,6 +29,7 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
   const todosByDate = useTodoStore((s) => s.todosByDate)
   const addTodo = useTodoStore((s) => s.addTodo)
   const toggleTodo = useTodoStore((s) => s.toggleTodo)
+  const editTodo = useTodoStore((s) => s.editTodo)
   const removeTodo = useTodoStore((s) => s.removeTodo)
   const countTodosByCategory = useTodoStore((s) => s.countTodosByCategory)
   const deleteTodosByCategory = useTodoStore((s) => s.deleteTodosByCategory)
@@ -86,6 +87,7 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
                   (t) => t.categoryId === category.id && !t.done,
                 )}
                 onToggle={(id) => toggleTodo(selectedDate, id)}
+                onEdit={(id, text) => editTodo(selectedDate, id, text)}
                 onRemove={(id) => removeTodo(selectedDate, id)}
               />
               <TodoInputForm
@@ -98,6 +100,7 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
             categories={visibleCategories}
             todos={todos}
             onToggle={(id) => toggleTodo(selectedDate, id)}
+            onEdit={(id, text) => editTodo(selectedDate, id, text)}
             onRemove={(id) => removeTodo(selectedDate, id)}
           />
         </div>

@@ -3,35 +3,59 @@
 .todo-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 8px; padding: 4px 0;
-  font-size: 14px; /* 카테고리 버튼과 맞춤 (루트 18px 상속 대신) */
-}
-.todo-item__toggle {
-  flex: 1;
-  display: flex; align-items: center; gap: 8px;
-  border: none; background: none; padding: 0;
-  font: inherit; text-align: left; cursor: pointer;
+  font-size: 14px;
+  border-bottom: 2px dotted var(--border);
 }
 
 .todo-item__box {
   flex-shrink: 0;
   width: 16px; height: 16px;
+  padding: 0;
   border: 1px solid var(--text-faint);
   border-radius: 50%;
+  background: none;
   display: grid; place-content: center;
   color: var(--text-h); /* <Check> 아이콘 색 (검정) */
+  cursor: pointer;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
-.todo-item__toggle[aria-checked='true'] .todo-item__box { /* 체크되면 배경색과 테두리 색을 강조색으로 바꿈 */
+.todo-item__box[aria-checked='true'] { /* 체크되면 배경·테두리를 강조색으로 */
   background: var(--accent);
   border-color: var(--accent);
 }
-.todo-item__text { color: var(--text-h); }
-.todo-item__text--done { color: var(--text-faint); text-decoration: line-through; }
 
-.todo-item button {
-  border: none; background: none; cursor: pointer;
-  color: var(--text); font-size: 14px; padding: 2px 6px; border-radius: 4px;
+/* 내용 텍스트 (클릭하면 인라인 편집) */
+.todo-item__text,
+.todo-item__text--done {
+  flex: 1;
+  min-width: 0;
+  border: none; background: none; padding: 0;
+  font: inherit; text-align: left;
+  color: var(--text-h);
+  cursor: text;
 }
-.todo-item button:hover { background: var(--hover); }
+.todo-item__text--done {
+  color: var(--text-faint);
+  text-decoration: line-through; /* 완료된 투두는 취소선 */
+}
+
+/* 편집용 인풋 */
+.todo-item__edit {
+  flex: 1;
+  min-width: 0;
+  border: none; outline: none;
+  background: #fff;
+  font: inherit;
+  color: var(--text-h);
+  padding: 2px 4px;
+}
+
+/* 삭제 버튼 */
+.todo-item__delete {
+  flex-shrink: 0;
+  display: inline-flex; align-items: center;
+  border: none; background: none; cursor: pointer;
+  color: var(--text); padding: 2px 6px; border-radius: 4px;
+}
+.todo-item__delete:hover { background: var(--hover); }

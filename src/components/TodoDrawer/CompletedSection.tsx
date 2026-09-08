@@ -8,6 +8,7 @@ interface CompletedSectionProps {
   categories: Category[] // 현재 보이는 카테고리들
   todos: Todo[] // 선택한 날짜의 전체 할 일
   onToggle: (id: string) => void
+  onEdit: (id: string, text: string) => void
   onRemove: (id: string) => void
 }
 
@@ -15,6 +16,7 @@ function CompletedSection({
   categories,
   todos,
   onToggle,
+  onEdit,
   onRemove,
 }: CompletedSectionProps) {
   const [open, setOpen] = useState(false)
@@ -51,7 +53,12 @@ function CompletedSection({
           {groups.map(({ category, items }) => (
             <div key={category.id} className="completed-section__group">
               <h4 className="completed-section__group-name">{category.name}</h4>
-              <TodoList todos={items} onToggle={onToggle} onRemove={onRemove} />
+              <TodoList
+                todos={items}
+                onToggle={onToggle}
+                onEdit={onEdit}
+                onRemove={onRemove}
+              />
             </div>
           ))}
         </div>
