@@ -57,13 +57,11 @@
   background: var(--accent-bg);
 }
 
-/* 보기 단위 버튼: 정사각형 */
 .calendar-header__nav button.calendar-header__mode {
   width: 32px;
   padding: 0;
 }
 
-/* 오늘 날짜 버튼: accent 배경 + 진한 텍스트 */
 .calendar-header__nav button.calendar-header__today {
   padding: 0 10px;
   background: var(--accent);
