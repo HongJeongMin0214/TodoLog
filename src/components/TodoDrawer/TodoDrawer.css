@@ -1,5 +1,5 @@
 .todo-drawer {
-  width: 260px;
+  width: 330px;
   flex-shrink: 0;               /* flex가 폭 애니메이션을 방해하지 않게 */
   height: 100vh;
   box-sizing: border-box;
@@ -14,7 +14,7 @@
 }
 
 .todo-drawer__inner {
-  width: 260px;                 /* 고정 → 애니메이션 중 텍스트 줄바꿈 안 생김 */
+  width: 330px;                 /* 고정 → 애니메이션 중 텍스트 줄바꿈 안 생김 */
   height: 100%;
   box-sizing: border-box;
   padding: 16px;
