@@ -80,7 +80,7 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
         <div className="todo-drawer__scroll">
           {visibleCategories.map((category) => (
             <section key={category.id} className="todo-drawer__category">
-              <h3 className="todo-drawer__category-name">{category.name}</h3>
+              <span className="todo-drawer__category-name">{category.name}</span>
               <TodoList
                 todos={todos.filter(
                   (t) => t.categoryId === category.id && !t.done,

@@ -22,7 +22,7 @@ function TodoInputForm({ onAdd }: TodoInputFormProps) {
         type="text"
         value={text}
         onChange={(e) => setText(e.target.value)} // e.target: 이벤트가 발생한 해당 입력창 태그(input) 자체
-        placeholder=" + 할 일 추가"
+        placeholder=" + 일정 추가"
       />
     </form>
   )

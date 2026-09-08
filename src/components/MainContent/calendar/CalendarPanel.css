@@ -70,7 +70,7 @@
   padding: 0 10px;
   background: var(--accent);
   border-color: var(--accent);
-  color: var(--text-h);
+  color: var(--text);
 }
 .calendar-header__nav button.calendar-header__today:hover {
   background: var(--accent);
@@ -129,7 +129,7 @@
   background: none;
   font: inherit; /* inherit: 부모 요소의 폰트 스타일을 그대로 상속받음 */
   text-align: left; 
-  color: var(--text-h);
+  color: var(--text);
   cursor: pointer;
 }
 

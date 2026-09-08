@@ -5,10 +5,13 @@
   box-sizing: border-box;
   border: none;
   outline: none;
-  background: var(--border);
-  color: var(--text-h);
+  background: transparent;   /* 기본 상태: 배경 없음 */
+  color: var(--text);
   padding: 8px 10px;
   border-radius: 6px;
   font-size: 14px;
 }
-.todo-input-form input::placeholder { color: var(--text); }
+.todo-input-form input:focus {
+  background: #fff;          /* 선택 시에만 흰 배경 */
+}
+.todo-input-form input::placeholder { color: var(--accent); }

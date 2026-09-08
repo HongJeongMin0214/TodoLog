@@ -20,6 +20,7 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
+  background: var(--surface);   /* 드로어 바탕 (흰색 미니 캘린더가 카드처럼 떠 보이게) */
 }
 
 /* 날짜 헤더 · 카테고리 탭바는 고정 (스크롤 X) */
@@ -42,12 +43,13 @@
   border-radius: 999px;
 }
 
-/* 미니 캘린더는 항상 맨 아래 고정 (푸터) */
+/* 미니 캘린더는 항상 맨 아래 고정 (푸터). 구분선 대신 배경색으로 영역 구분 */
 .todo-drawer__inner > .mini-calendar {
   flex-shrink: 0;
-  margin-top: 0;
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: 8px;
 }
 
 .todo-drawer__date {
@@ -59,5 +61,5 @@
 
 .todo-drawer__category { margin-top: 16px; }
 .todo-drawer__category-name {
-  margin: 0 0 6px; font-size: 14px; font-weight: 600; color: var(--text-h);
+  margin: 0 0 6px; font-size: 14px; color: var(--text-h);
 }

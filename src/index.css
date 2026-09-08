@@ -3,7 +3,7 @@
   --text-h: #000000;
   --bg: #fff;
   --border: #e9e9e7;
-  --code-bg: #ededea;
+  --surface: #fafafa;
   --accent: #D1E231;
   --accent-bg: #ededea;
   --accent-border: #dcf028;
@@ -36,7 +36,7 @@
     --text-h: #f3f4f6;
     --bg: #16171d;
     --border: #2e303a;
-    --code-bg: #1f2028;
+    --surface: #1f2028;
     --accent: #c084fc;
     --accent-bg: rgba(192, 132, 252, 0.15);
     --accent-border: rgba(192, 132, 252, 0.5);
@@ -93,5 +93,5 @@ code {
   font-size: 15px;
   line-height: 135%;
   padding: 4px 8px;
-  background: var(--code-bg);
+  background: var(--surface);
 }
