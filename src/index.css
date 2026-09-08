@@ -1,9 +1,12 @@
 :root {
-  --text: #343434;
-  --text-h: #000000;
-  --bg: #fff;
-  --border: #e9e9e7;
-  --surface: #fafafa;
+  --text: #6b6b6b;        /* 보조 글자 */
+  --text-h: #202123;      /* 기본 글자 */
+  --text-faint: #9a9a9a;  /* 아주 연한 글자 (이번달 밖 날짜 등) */
+  --bg: #ffffff;          /* 전체 메인 배경 · 카드/캘린더 셀 배경 */
+  --border: #e5e5e5;      /* 경계선 */
+  --surface: #f7f7f8;     /* TodoDrawer · ActivityBar 배경 */
+  --hover: #f1f1f2;       /* hover 배경 */
+  --selected: #ececf1;    /* 선택된 항목 배경 */
   --accent: #D1E231;
   --accent-bg: #ededea;
   --accent-border: #dcf028;
@@ -34,9 +37,12 @@
   :root {
     --text: #9ca3af;
     --text-h: #f3f4f6;
+    --text-faint: #6b7280;
     --bg: #16171d;
     --border: #2e303a;
     --surface: #1f2028;
+    --hover: #23252e;
+    --selected: #2b2e39;
     --accent: #c084fc;
     --accent-bg: rgba(192, 132, 252, 0.15);
     --accent-border: rgba(192, 132, 252, 0.5);

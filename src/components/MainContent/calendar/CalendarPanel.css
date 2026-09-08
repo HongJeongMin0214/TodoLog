@@ -58,7 +58,7 @@
   font-size: 14px;
 }
 .calendar-header__nav button:hover {
-  background: var(--accent-bg);
+  background: var(--hover);
 }
 
 .calendar-header__nav button.calendar-header__mode {
@@ -158,7 +158,7 @@
 }
 
 .calendar-date-cell--outside .calendar-date-cell__num {
-  color: #bbbbbb;
+  color: var(--text-faint);
 }
 
 .calendar-date-cell--today .calendar-date-cell__num {

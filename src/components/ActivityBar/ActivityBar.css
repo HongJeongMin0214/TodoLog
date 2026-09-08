@@ -27,13 +27,12 @@
 
 .activity-bar__button:active,
 .activity-bar__button.is-active {
-  background-color: #e9ecef;
+  background-color: var(--selected);
   color: var(--text-h);
 }
 
 .activity-bar__button:hover {
-  background: var(--accent-bg);
-  background-color: #f1f3f5;
+  background: var(--hover);
   color: var(--text-h);
 }
 

@@ -43,7 +43,7 @@
   cursor: pointer;
 }
 .delete-category-dialog__actions button:hover {
-  background: var(--accent-bg);
+  background: var(--hover);
 }
 
 .delete-category-dialog__btn--danger,

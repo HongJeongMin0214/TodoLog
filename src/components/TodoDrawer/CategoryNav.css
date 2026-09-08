@@ -41,7 +41,7 @@
 
 .category-nav__add-input {
   width: 72px;
-  background: var(--border);
+  background: var(--selected);
   color: var(--text-h);
   outline: none;
   cursor: text;

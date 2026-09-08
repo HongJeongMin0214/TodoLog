@@ -8,7 +8,7 @@
   border: none; background: none; cursor: pointer;
   font-size: 14px; color: var(--text); padding: 2px 6px; border-radius: 6px;
 }
-.mini-calendar__header button:hover { background: var(--accent-bg); }
+.mini-calendar__header button:hover { background: var(--hover); }
 .mini-calendar__nav { display: flex; gap: 2px; }
 
 .mini-calendar__grid {
@@ -21,8 +21,8 @@
   border: none; background: none; cursor: pointer;
   aspect-ratio: 1 / 0.8; border-radius: 6px; font-size: 11px; color: var(--text);
 }
-.mini-calendar__day:hover { background: var(--accent-bg); }
-.mini-calendar__day--outside { color: #bbbbbb; }
+.mini-calendar__day:hover { background: var(--hover); }
+.mini-calendar__day--outside { color: var(--text-faint); }
 .mini-calendar__day--today { font-weight: 700; color: var(--text-h); }
 .mini-calendar__day--selected,
-.mini-calendar__day--selected:hover { background: var(--accent); color: var(--text-h); }
+.mini-calendar__day--selected:hover { background: var(--selected); color: var(--text-h); }

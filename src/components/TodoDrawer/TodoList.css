@@ -43,7 +43,7 @@
   transform: rotate(45deg) scale(1);
 }
 .todo-item__text { color: var(--text-h); }
-.todo-item__text--done { color: var(--border); text-decoration: line-through; }
+.todo-item__text--done { color: var(--text-faint); text-decoration: line-through; }
 
 .todo-item button {
   border: none; background: none; cursor: pointer;
@@ -51,4 +51,4 @@
   opacity: 0; transition: opacity 0.15s ease;
 }
 .todo-item:hover button { opacity: 1; }
-.todo-item button:hover { background: var(--accent-bg); }
+.todo-item button:hover { background: var(--hover); }
