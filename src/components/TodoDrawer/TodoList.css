@@ -25,8 +25,7 @@
   border-color: var(--accent);
 }
 
-/* 편집 인풋·삭제 버튼은 항상 단일 행이라 높이 고정 (서로 같은 높이) */
-.todo-item__edit,
+/* 삭제 버튼 높이 고정 (한 줄 아이콘 버튼) */
 .todo-item__delete {
   height: 24px;
   box-sizing: border-box;
@@ -49,18 +48,21 @@
   text-decoration: line-through; /* 완료된 투두는 취소선 */
 }
 
-/* 편집용 인풋 */
+/* 편집용 textarea: 내용에 맞춰 JS(autoResize)가 height를 지정 → 비편집 텍스트처럼 여러 줄 */
 .todo-item__edit {
   flex: 1;
   min-width: 0;
   min-height: 24px;
+  box-sizing: border-box;
   border: none; outline: none;
   background: var(--bg);
-  font: inherit; 
+  font: inherit;
   line-height: 1.4;
   color: var(--text-h);
   padding: 0 4px;
   border-radius: 4px;
+  resize: none;      /* 사용자 크기조절 핸들 숨김 */
+  overflow: hidden;  /* 스크롤바 없이 scrollHeight로 높이 계산 */
 }
 
 /* 삭제 버튼 */

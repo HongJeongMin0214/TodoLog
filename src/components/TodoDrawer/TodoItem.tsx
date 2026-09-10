@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useLayoutEffect } from 'react'
 import type { Todo } from '../../types/todo'
 import { Check, X } from 'lucide-react'
 
@@ -12,6 +12,18 @@ interface TodoItemProps {
 function TodoItem({ todo, onToggle, onEdit, onRemove }: TodoItemProps) {
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState(todo.text) // draft: 편집 중인 텍스트 (인풋에 바인딩). setDraft: 편집 완료 시 onEdit 호출 후 draft를 todo.text로 초기화
+  const editRef = useRef<HTMLTextAreaElement>(null) // 편집 중인 textarea에 포커스 주기 위해 ref 사용
+
+  // textarea 높이를 내용에 맞춤 (비편집 버튼처럼 여러 줄로 늘어나도록)
+  const autoResize = () => {
+    const el = editRef.current // 편집 중인 textarea
+    if (!el) return // ref가 아직 연결되지 않았으면 종료
+    el.style.height = 'auto' // 높이를 auto로 초기화 후 scrollHeight를 읽어야 정확한 높이 계산 가능
+    el.style.height = `${el.scrollHeight}px`
+  }
+  useLayoutEffect(() => { // useLayoutEffect는 useEffect보다 먼저 실행되어 편집 모드 전환 시 textarea 높이가 깜빡임 없이 바로 적용됨
+    if (editing) autoResize()
+  }, [editing]) // []는 의존성 배열(감시자 역할)로 editing이 바뀔 때마다 실행됨
 
   const startEdit = () => {
     setDraft(todo.text)
@@ -43,13 +55,21 @@ function TodoItem({ todo, onToggle, onEdit, onRemove }: TodoItemProps) {
       </button>
 
       {editing ? (
-        <input
+        <textarea
+          ref={editRef}
           className="todo-item__edit"
+          rows={1} // rows=1: 최소 높이 1줄, 내용이 많으면 autoResize()로 늘어남
           autoFocus
           value={draft}
-          onChange={(e) => setDraft(e.target.value)}
+          onChange={(e) => {
+            setDraft(e.target.value)
+            autoResize()
+          }}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') commit()
+            if (e.key === 'Enter') {
+              e.preventDefault() // Enter=저장 (textarea 기본 줄바꿈 막음)
+              commit()
+            }
             if (e.key === 'Escape') cancel()
           }}
           onBlur={commit}
