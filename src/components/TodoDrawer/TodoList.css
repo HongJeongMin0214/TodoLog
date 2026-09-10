@@ -40,12 +40,13 @@
   display: flex; align-items: center;
   border: none; background: none; padding: 0 4px;
   font: inherit; line-height: 1.4; text-align: left;
+  overflow-wrap: anywhere; /* 띄어쓰기 없는 긴 문자열도 강제로 줄바꿈. anywhere는 모든 위치에서 줄바꿈 허용 */
   color: var(--text-h);
   cursor: text;
 }
 .todo-item__text--done {
   color: var(--text-faint);
-  text-decoration: line-through; /* 완료된 투두는 취소선 */
+  text-decoration: line-through; /* 취소선 */
 }
 
 /* 편집용 textarea: 내용에 맞춰 JS(autoResize)가 height를 지정 → 비편집 텍스트처럼 여러 줄 */
@@ -61,8 +62,9 @@
   color: var(--text-h);
   padding: 0 4px;
   border-radius: 4px;
-  resize: none;      /* 사용자 크기조절 핸들 숨김 */
-  overflow: hidden;  /* 스크롤바 없이 scrollHeight로 높이 계산 */
+  resize: none;             /* 사용자 크기조절 핸들 숨김 */
+  overflow: hidden;         /* 스크롤바 없이 scrollHeight로 높이 계산 */
+  overflow-wrap: anywhere;
 }
 
 /* 삭제 버튼 */
