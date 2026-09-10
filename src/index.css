@@ -1,13 +1,15 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
+  --text: #6b6b6b;        /* 보조 글자 */
+  --text-h: #202123;      /* 기본 글자 */
+  --text-faint: #9a9a9a;  /* 아주 연한 글자 (이번달 밖 날짜 등) */
+  --bg: #ffffff;          /* 전체 메인 배경 · 카드/캘린더 셀 배경 */
+  --border: #e5e5e5;      /* 경계선 */
+  --surface: #f7f7f8;     /* TodoDrawer · ActivityBar 배경 */
+  --hover: #f1f1f2;       /* hover 배경 */
+  --selected: #ececf1;    /* 선택된 항목 배경 */
+  --accent: #000000;      /* 버튼 강조색 (라이트: 검정) */
+  --accent-fg: #ffffff;   /* --accent 위에 올라가는 글자·아이콘 색 (라이트: 흰색) */
+  --star: #facc15;        /* 중요 일정 별표 */
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
@@ -34,13 +36,14 @@
   :root {
     --text: #9ca3af;
     --text-h: #f3f4f6;
+    --text-faint: #6b7280;
     --bg: #16171d;
     --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
+    --surface: #1f2028;
+    --hover: #23252e;
+    --selected: #2b2e39;
+    --accent: #ffffff;      /* 버튼 강조색 (다크: 흰색) */
+    --accent-fg: #000000;   /* --accent 위에 올라가는 글자·아이콘 색 (다크: 검정) */
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
   }
@@ -93,5 +96,5 @@ code {
   font-size: 15px;
   line-height: 135%;
   padding: 4px 8px;
-  background: var(--code-bg);
+  background: var(--surface);
 }

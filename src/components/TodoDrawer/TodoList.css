@@ -3,21 +3,91 @@
 .todo-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 8px; padding: 4px 0;
+  font-size: 14px;
+  border-bottom: 2px dotted var(--border);
 }
-.todo-item label {
-  display: flex; align-items: center; gap: 8px;
-  flex: 1;
-  text-align: left; cursor: pointer;
-}
-.todo-item__text { color: var(--text-h); }
-.todo-item__text--done { color: var(--border); text-decoration: line-through; }
 
-.todo-item button {
-  border: none; background: none; cursor: pointer;
-  color: var(--text); font-size: 14px; padding: 2px 6px; border-radius: 4px;
-  opacity: 0; transition: opacity 0.15s ease;
+.todo-item__box {
+  flex-shrink: 0;
+  width: 16px; height: 16px;
+  padding: 0;
+  border: 1px solid var(--text-faint);
+  border-radius: 50%;
+  background: none;
+  display: grid; place-content: center;
+  color: var(--accent-fg);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
-.todo-item:hover button { opacity: 1; }
-.todo-item button:hover { background: var(--accent-bg); }
+.todo-item__box[aria-checked='true'] { /* 체크되면 배경·테두리를 강조색으로 */
+  background: var(--text-faint);
+  border-color: var(--text-faint);
+}
+
+/* 삭제 버튼 높이 고정 (한 줄 아이콘 버튼) */
+.todo-item__delete {
+  height: 24px;
+  box-sizing: border-box;
+}
+
+/* 내용 텍스트: 짧으면 24px, 길면 여러 줄로 늘어남 (겹침 방지) */
+.todo-item__text,
+.todo-item__text--done {
+  flex: 1;
+  min-width: 0;
+  min-height: 24px;
+  display: flex; align-items: center;
+  border: none; background: none; padding: 0 4px;
+  font: inherit; line-height: 1.4; text-align: left;
+  overflow-wrap: anywhere; /* 띄어쓰기 없는 긴 문자열도 강제로 줄바꿈. anywhere는 모든 위치에서 줄바꿈 허용 */
+  color: var(--text-h);
+  cursor: text;
+}
+.todo-item__text--done {
+  color: var(--text-faint);
+  text-decoration: line-through; /* 취소선 */
+}
+
+/* 편집용 textarea: 내용에 맞춰 JS(autoResize)가 height를 지정 → 비편집 텍스트처럼 여러 줄 */
+.todo-item__edit {
+  flex: 1;
+  min-width: 0;
+  min-height: 24px;
+  box-sizing: border-box;
+  border: none; outline: none;
+  background: var(--bg);
+  font: inherit;
+  line-height: 1.4;
+  color: var(--text-h);
+  padding: 0 4px;
+  border-radius: 4px;
+  resize: none;             /* 사용자 크기조절 핸들 숨김 */
+  overflow: hidden;         /* 스크롤바 없이 scrollHeight로 높이 계산 */
+  overflow-wrap: anywhere;
+}
+
+/* 삭제 버튼 */
+.todo-item__delete {
+  flex-shrink: 0;
+  display: inline-flex; align-items: center;
+  border: none; background: none; cursor: pointer;
+  color: var(--text); padding: 0 6px; border-radius: 4px;
+}
+.todo-item__delete:hover { background: var(--hover); }
+/* 비편집 상태: 보이지 않지만 레이아웃엔 남아 편집 전환 시 편집 영역 폭이 고정됨 */
+.todo-item__delete--hidden { visibility: hidden; pointer-events: none; }
+
+/* 별표 버튼 (중요 일정): 삭제 버튼과 같은 높이·자리 예약 규칙 */
+.todo-item__star {
+  flex-shrink: 0;
+  height: 24px;
+  box-sizing: border-box;
+  display: inline-flex; align-items: center;
+  border: none; background: none; cursor: pointer;
+  color: var(--text-faint);
+  padding: 0 4px; border-radius: 4px;
+}
+.todo-item__star:hover { background: var(--hover); }
+.todo-item__star--on { color: var(--star); }
+.todo-item__star--hidden { visibility: hidden; pointer-events: none; }

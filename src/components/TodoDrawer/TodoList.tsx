@@ -5,10 +5,18 @@ import TodoItem from './TodoItem'
 interface TodoListProps {
   todos: Todo[]
   onToggle: (id: string) => void
+  onToggleImportant: (id: string) => void
+  onEdit: (id: string, text: string) => void
   onRemove: (id: string) => void
 }
 
-function TodoList({ todos, onToggle, onRemove }: TodoListProps) {
+function TodoList({
+  todos,
+  onToggle,
+  onToggleImportant,
+  onEdit,
+  onRemove,
+}: TodoListProps) {
   if (todos.length === 0) {
     return null
   }
@@ -20,6 +28,8 @@ function TodoList({ todos, onToggle, onRemove }: TodoListProps) {
           key={todo.id}
           todo={todo}
           onToggle={onToggle}
+          onToggleImportant={onToggleImportant}
+          onEdit={onEdit}
           onRemove={onRemove}
         />
       ))}

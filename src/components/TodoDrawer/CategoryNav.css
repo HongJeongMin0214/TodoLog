@@ -1,48 +1,51 @@
 .category-nav {
+  position: relative;
+  margin: 12px 0;
+  border-bottom: 1.5px solid var(--border);
+}
+
+.category-nav__scroll {
   display: flex;
   gap: 4px;
-  margin: 12px 0;
   overflow-x: auto;
   overflow-y: hidden;
-  padding-bottom: 4px; /* 스크롤바와 탭이 겹치지 않게 */
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: var(--border) transparent; /* 텀 / 트랙(투명) */
+  cursor: grab; /* 커서 모양이 열린 손바닥 모양으로 바뀜 */
+  scrollbar-width: none; /* Firefox: 스크롤바 숨김 */
 }
-/* Chrome, Safari, Edge */
-.category-nav::-webkit-scrollbar { height: 6px; }
-.category-nav::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 999px;
-}
+.category-nav__scroll:active { cursor: grabbing; } /* :active: 마우스 버튼을 꾹 누르고 있는 순간*/
+.category-nav__scroll::-webkit-scrollbar { display: none; } /* Chrome, Safari, Edge */
 
 .category-nav button,
 .category-nav__add-input {
   flex-shrink: 0; /* 버튼의 너비를 줄이지 않고 100%로 유지 시켜 찌그러지지 않게 함 */
   border: none;
   background: none;
-  padding: 4px 10px;
+  padding: 4px 10px 10px 10px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text);
   cursor: pointer;
   white-space: nowrap; /* 텍스트 줄바꿈하지 않고 한 줄로 유지 */
 }
-.category-nav button:hover { background: var(--accent-bg); }
 
-.category-nav__tab--active,
-.category-nav__tab--active:hover {
-  background: var(--accent);
-  color: #fff;
+/* 탭(전체 + 카테고리): 선택된 탭만 아래 검은 밑줄 */
+.category-nav__scroll > button:not(.category-nav__add) {
+  border-radius: 0;
+}
+.category-nav__tab--active {
+  box-shadow: inset 0 -2px 0 var(--accent);
 }
 
 .category-nav__add { color: var(--text); }
+.category-nav__add:hover { color: var(--text-h); }
 
 .category-nav__add-input {
   width: 72px;
-  background: var(--border);
+  background: var(--selected);
   color: var(--text-h);
   outline: none;
   cursor: text;
+  border-radius: 6px;
 }
 
 /* 이름 편집 중: input + 삭제(×) 버튼을 한 덩어리로 */
@@ -50,11 +53,25 @@
   flex-shrink: 0;
   display: inline-flex; /* 가로 너비를 자기 내용물 만큼만 차지하도록 */
   align-items: center;
+  justify-content: center;
   gap: 2px;
 }
+/* input과 삭제(×) 버튼 높이를 동일하게 */
+.category-nav__edit .category-nav__add-input,
 .category-nav__edit .category-nav__delete {
-  padding: 4px 6px;
-  line-height: 1; /* × 버튼의 세로 높이를 글자 높이와 맞춤 1:1로 */
+  height: 28px;
+  padding-top: 0;
+  padding-bottom: 0;
+  box-sizing: border-box;
+}
+.category-nav__edit .category-nav__delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 6px;
+  padding-right: 6px;
+  background: rgba(229, 72, 77, 0.1);
+  border-radius: 6px;
 }
 .category-nav__edit .category-nav__delete:hover {
   color: #e5484d;

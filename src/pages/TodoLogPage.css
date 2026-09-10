@@ -6,4 +6,5 @@
 .todo-log-page > .right-panel {
   flex: 1;
   min-width: 0; /* flex 자식이 넘칠 때 찌그러지지 않게 */
+  background: var(--bg);
 }
