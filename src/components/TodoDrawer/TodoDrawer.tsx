@@ -29,6 +29,7 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
   const todosByDate = useTodoStore((s) => s.todosByDate)
   const addTodo = useTodoStore((s) => s.addTodo)
   const toggleTodo = useTodoStore((s) => s.toggleTodo)
+  const toggleImportant = useTodoStore((s) => s.toggleImportant)
   const editTodo = useTodoStore((s) => s.editTodo)
   const removeTodo = useTodoStore((s) => s.removeTodo)
   const countTodosByCategory = useTodoStore((s) => s.countTodosByCategory)
@@ -39,6 +40,8 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
   const renameCategory = useCategoryStore((s) => s.renameCategory)
   const removeCategory = useCategoryStore((s) => s.removeCategory)
 
+  // [{ id: "1", ... }, { id: "2", ... }] 
+  // todosByDate[selectedDate]이므로 해당 날짜에 해당하는 Todo[] 배열만 담김. Record<string, Todo[]>의 사전이 아닌 순수 Todo[] 배열임.
   const todos = todosByDate[selectedDate] ?? []
 
   // "전체"면 모든 카테고리, 아니면 선택한 카테고리 하나만
@@ -83,10 +86,17 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
             <section key={category.id} className="todo-drawer__category">
               <span className="todo-drawer__category-name">{category.name}</span>
               <TodoList
-                todos={todos.filter(
-                  (t) => t.categoryId === category.id && !t.done,
-                )}
+                todos={todos
+                  .filter((t) => t.categoryId === category.id && !t.done)
+                  // 중요 일정을 카테고리 최상단으로 (안정 정렬이라 그룹 내 기존 순서 유지)
+                  // 스토어(addTodo)는 최초 생성 시 초기 위치만 잡아주고, .sort는 별표 토글로 중요도가 바뀌거나 필터링될 때 최상단 유지를 보장하는 안전장치
+                  // a와 b를 비교하여 정렬함. 리턴값이 음수면 ab 순서고, 양수면 ba순서, 0이면 순서 변경 없음.
+                  // a = { id: "1", text: "청소하기", important: false } 이런식으로 들어가는데, todos.filter한 것들의 결과 전체 아이템을 2개씩 비교작업을 반복하여 모두 비교함. 
+                  .sort((a, b) =>
+                      Number(!!b.important) - Number(!!a.important), // !!a: a를 불리언 타입으로 강제 변환. a가 undefined, null, false이면 false로.
+                  )}
                 onToggle={(id) => toggleTodo(selectedDate, id)}
+                onToggleImportant={(id) => toggleImportant(selectedDate, id)}
                 onEdit={(id, text) => editTodo(selectedDate, id, text)}
                 onRemove={(id) => removeTodo(selectedDate, id)}
               />
@@ -100,6 +110,7 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
             categories={visibleCategories}
             todos={todos}
             onToggle={(id) => toggleTodo(selectedDate, id)}
+            onToggleImportant={(id) => toggleImportant(selectedDate, id)}
             onEdit={(id, text) => editTodo(selectedDate, id, text)}
             onRemove={(id) => removeTodo(selectedDate, id)}
           />

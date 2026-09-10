@@ -77,3 +77,17 @@
 .todo-item__delete:hover { background: var(--hover); }
 /* 비편집 상태: 보이지 않지만 레이아웃엔 남아 편집 전환 시 편집 영역 폭이 고정됨 */
 .todo-item__delete--hidden { visibility: hidden; pointer-events: none; }
+
+/* 별표 버튼 (중요 일정): 삭제 버튼과 같은 높이·자리 예약 규칙 */
+.todo-item__star {
+  flex-shrink: 0;
+  height: 24px;
+  box-sizing: border-box;
+  display: inline-flex; align-items: center;
+  border: none; background: none; cursor: pointer;
+  color: var(--text-faint);
+  padding: 0 4px; border-radius: 4px;
+}
+.todo-item__star:hover { background: var(--hover); }
+.todo-item__star--on { color: var(--star); }
+.todo-item__star--hidden { visibility: hidden; pointer-events: none; }

@@ -9,6 +9,7 @@
   --selected: #ececf1;    /* 선택된 항목 배경 */
   --accent: #000000;      /* 버튼 강조색 (라이트: 검정) */
   --accent-fg: #ffffff;   /* --accent 위에 올라가는 글자·아이콘 색 (라이트: 흰색) */
+  --star: #facc15;        /* 중요 일정 별표 */
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 

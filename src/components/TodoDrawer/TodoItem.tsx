@@ -1,15 +1,22 @@
 import { useState, useRef, useLayoutEffect } from 'react'
 import type { Todo } from '../../types/todo'
-import { Check, X } from 'lucide-react'
+import { Check, Star, X } from 'lucide-react'
 
 interface TodoItemProps {
   todo: Todo
   onToggle: (id: string) => void
+  onToggleImportant: (id: string) => void
   onEdit: (id: string, text: string) => void
   onRemove: (id: string) => void
 }
 
-function TodoItem({ todo, onToggle, onEdit, onRemove }: TodoItemProps) {
+function TodoItem({
+  todo,
+  onToggle,
+  onToggleImportant,
+  onEdit,
+  onRemove,
+}: TodoItemProps) {
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState(todo.text) // draft: 편집 중인 텍스트 (인풋에 바인딩). setDraft: 편집 완료 시 onEdit 호출 후 draft를 todo.text로 초기화
   const editRef = useRef<HTMLTextAreaElement>(null) // 편집 중인 textarea에 포커스 주기 위해 ref 사용
@@ -83,6 +90,27 @@ function TodoItem({ todo, onToggle, onEdit, onRemove }: TodoItemProps) {
           {todo.text}
         </button>
       )}
+
+      {/* 별표(중요 일정): 비중요일 땐 자리만 예약(visibility:hidden)해 편집 전환 시 폭 점프 방지 */}
+      <button
+        type="button"
+        className={
+          'todo-item__star' +
+          (todo.important ? ' todo-item__star--on' : '') +
+          (!editing && !todo.important ? ' todo-item__star--hidden' : '')
+        }
+        tabIndex={editing || todo.important ? 0 : -1} // 편집 중이거나 중요 일정일 때 tab 포커스 허용
+        aria-hidden={!(editing || todo.important)}
+        aria-pressed={!!todo.important}
+        onMouseDown={(e) => {
+          e.preventDefault() // 편집 중 textarea onBlur(저장)보다 먼저 실행되어 버튼이 사라지는 것 방지
+          onToggleImportant(todo.id)
+        }}
+        aria-label={todo.important ? '중요 해제' : '중요 표시'}
+      >
+        {/* fill={currentColor}: css 표준. 현재 요소(또는 부모 요소)가 가진 색상 그대로 씀 */}
+        <Star size={14} fill={todo.important ? 'currentColor' : 'none'} />
+      </button>
 
       {/* 삭제 버튼: 편집 중이 아닐 땐 자리만 예약(visibility:hidden)해 편집 전환 시 폭 점프 방지 */}
       <button

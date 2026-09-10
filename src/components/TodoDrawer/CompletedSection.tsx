@@ -8,6 +8,7 @@ interface CompletedSectionProps {
   categories: Category[] // 현재 보이는 카테고리들
   todos: Todo[] // 선택한 날짜의 전체 할 일
   onToggle: (id: string) => void
+  onToggleImportant: (id: string) => void
   onEdit: (id: string, text: string) => void
   onRemove: (id: string) => void
 }
@@ -16,6 +17,7 @@ function CompletedSection({
   categories,
   todos,
   onToggle,
+  onToggleImportant,
   onEdit,
   onRemove,
 }: CompletedSectionProps) {
@@ -56,6 +58,7 @@ function CompletedSection({
               <TodoList
                 todos={items}
                 onToggle={onToggle}
+                onToggleImportant={onToggleImportant}
                 onEdit={onEdit}
                 onRemove={onRemove}
               />
