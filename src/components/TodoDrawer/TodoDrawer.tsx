@@ -101,7 +101,9 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
                 onRemove={(id) => removeTodo(selectedDate, id)}
               />
               <TodoInputForm
-                onAdd={(text) => addTodo(selectedDate, category.id, text)}
+                onAdd={(text, important) =>
+                  addTodo(selectedDate, category.id, text, important)
+                }
               />
             </section>
           ))}

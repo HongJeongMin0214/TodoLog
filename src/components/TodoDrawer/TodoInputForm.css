@@ -1,21 +1,44 @@
 .todo-input-form { margin-top: 8px; }
 
-.todo-input-form input {
-  width: 100%;
-  box-sizing: border-box;
-  border: none;
-  outline: none;
-  background: transparent;   /* 기본 상태: 배경 없음 */
-  color: var(--text);
-  padding: 8px 10px;
+/* input + 별표 버튼 */
+.todo-input-form__field {
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
   border-radius: 6px;
-  font-size: 14px;
 }
-.todo-input-form input:focus {
+.todo-input-form__field:focus-within { /* 자식 요소 중 무언가 포커스 받으면 스타일 적용시킴. */
   background: var(--bg);
-  border: 1px solid var(--border);
+  border-color: var(--border);
   box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.04),
     0 2px 8px rgba(0, 0, 0, 0.05);
 }
+
+.todo-input-form input {
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text-h);
+  padding: 8px 10px;
+  font-size: 14px;
+}
 .todo-input-form input::placeholder { color: var(--accent); font-weight: bold; }
+
+.todo-input-form__star {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--text-faint);
+  padding: 6px;
+  margin-right: 4px;
+  border-radius: 4px;
+}
+.todo-input-form__star:hover { background: var(--hover); }
+.todo-input-form__star--on { color: var(--star); }
