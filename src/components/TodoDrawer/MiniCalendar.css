@@ -23,6 +23,7 @@
 }
 .mini-calendar__day:hover { background: var(--hover); }
 .mini-calendar__day--outside { color: var(--text-faint); }
-.mini-calendar__day--today { font-weight: bold; color: var(--accent); }
 .mini-calendar__day--selected,
 .mini-calendar__day--selected:hover { background: var(--selected); color: var(--text-h); }
+/* 클래스 2개로 특이도(0,2,0) → --selected 포함 위 규칙들의 color를 덮어 오늘 강조색 유지. 맨 아래 배치로 :hover와의 동점도 이김 */
+.mini-calendar__day.mini-calendar__day--today { font-weight: bold; color: var(--accent); }
