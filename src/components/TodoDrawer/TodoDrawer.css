@@ -31,8 +31,9 @@
 /* 가운데 투두 영역만 남은 공간을 차지하고, 넘치면 세로 스크롤 */
 .todo-drawer__scroll {
   flex: 1;
-  min-height: 0;               /* flex 자식이 넘칠 때 스크롤되도록 */
+  min-height: 0; /* 0으로 줄어드는 것을 허용. flex 자식 요소가 부모 박스 남은 공간에 맞춰 자기 몸을 맘껏 줄일 수 있음 */
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
 }
