@@ -64,20 +64,20 @@ function TodoItem({ todo, onToggle, onEdit, onRemove }: TodoItemProps) {
         </button>
       )}
 
-      {/* 삭제 버튼은 편집 중일 때만 표시 */}
-      {editing && (
-        <button
-          type="button"
-          className="todo-item__delete"
-          onMouseDown={(e) => {
-            e.preventDefault() // mousedown에서 preventDefault: 인풋 onBlur(저장)보다 먼저 실행되어 버튼이 사라지는 것 방지
-            onRemove(todo.id)
-          }}
-          aria-label="삭제"
-        >
-          <X size={14} />
-        </button>
-      )}
+      {/* 삭제 버튼: 편집 중이 아닐 땐 자리만 예약(visibility:hidden)해 편집 전환 시 폭 점프 방지 */}
+      <button
+        type="button"
+        className={editing ? 'todo-item__delete' : 'todo-item__delete todo-item__delete--hidden'}
+        tabIndex={editing ? 0 : -1} // 편집 중이 아닐 땐 포커스 불가. 0: 편집 중이면 탭 순서에 포함, -1: 편집 중이 아니면 탭 순서에서 제외
+        aria-hidden={!editing}
+        onMouseDown={(e) => {
+          e.preventDefault() // mousedown에서 preventDefault: 인풋 onBlur(저장)보다 먼저 실행되어 버튼이 사라지는 것 방지
+          onRemove(todo.id)
+        }}
+        aria-label="삭제"
+      >
+        <X size={14} />
+      </button>
     </li>
   )
 }

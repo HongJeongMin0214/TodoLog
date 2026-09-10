@@ -40,7 +40,7 @@
   min-height: 24px;
   display: flex; align-items: center;
   border: none; background: none; padding: 0 4px;
-  font: inherit; text-align: left;
+  font: inherit; line-height: 1.4; text-align: left;
   color: var(--text-h);
   cursor: text;
 }
@@ -53,9 +53,11 @@
 .todo-item__edit {
   flex: 1;
   min-width: 0;
+  min-height: 24px;
   border: none; outline: none;
   background: var(--bg);
-  font: inherit;
+  font: inherit; 
+  line-height: 1.4;
   color: var(--text-h);
   padding: 0 4px;
   border-radius: 4px;
@@ -69,3 +71,5 @@
   color: var(--text); padding: 0 6px; border-radius: 4px;
 }
 .todo-item__delete:hover { background: var(--hover); }
+/* 비편집 상태: 보이지 않지만 레이아웃엔 남아 편집 전환 시 편집 영역 폭이 고정됨 */
+.todo-item__delete--hidden { visibility: hidden; pointer-events: none; }
