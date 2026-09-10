@@ -60,7 +60,7 @@
   display: flex; align-items: baseline; justify-content: space-between;
 }
 .todo-drawer__today {
-  font-size: 12px; color: #b2c02d; font-weight: 700;
+  font-size: 12px; color: var(--accent); font-weight: bold;
 }
 
 .todo-drawer__category { margin-top: 16px; }

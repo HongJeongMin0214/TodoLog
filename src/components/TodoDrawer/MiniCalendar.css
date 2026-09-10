@@ -23,6 +23,6 @@
 }
 .mini-calendar__day:hover { background: var(--hover); }
 .mini-calendar__day--outside { color: var(--text-faint); }
-.mini-calendar__day--today { font-weight: 700; color: var(--text-h); }
+.mini-calendar__day--today { font-weight: bold; color: var(--accent); }
 .mini-calendar__day--selected,
 .mini-calendar__day--selected:hover { background: var(--selected); color: var(--text-h); }

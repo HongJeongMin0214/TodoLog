@@ -1,7 +1,7 @@
 .category-nav {
   position: relative;
   margin: 12px 0;
-  border-bottom: 1px solid var(--border); /* 바 아래 얇은 긴 줄 */
+  border-bottom: 1px solid var(--accent); /* 바 아래 얇은 긴 줄 */
 }
 
 .category-nav__scroll {
