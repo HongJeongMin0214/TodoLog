@@ -39,6 +39,8 @@
   padding: 6px;
   margin-right: 4px;
   border-radius: 4px;
+  visibility: hidden;
 }
+.todo-input-form__field:focus-within .todo-input-form__star { visibility: visible; }
 .todo-input-form__star:hover { background: var(--hover); }
 .todo-input-form__star--on { color: var(--star); }

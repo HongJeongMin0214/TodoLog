@@ -48,7 +48,7 @@ function TodoItem({
   }
 
   return (
-    <li className="todo-item">
+    <li className={'todo-item' + (editing ? ' todo-item--editing' : '')}>
       {/* 체크박스: 클릭하면 완료 토글 */}
       <button
         type="button"
@@ -91,19 +91,22 @@ function TodoItem({
         </button>
       )}
 
-      {/* 별표(중요 일정): 비중요일 땐 자리만 예약(visibility:hidden)해 편집 전환 시 폭 점프 방지 */}
+      {/* 별표(중요 일정): 항상 렌더해 자리만 예약(폭 점프 방지).
+          - 비편집 + 중요: 노란 채움 별 상시 표시
+          - 비편집 + 비중요: 숨김, 아이템 호버 시에만 노출
+          - 편집 중: 항상 숨김 (레이아웃 자리는 유지) */}
       <button
         type="button"
         className={
           'todo-item__star' +
-          (todo.important ? ' todo-item__star--on' : '') +
-          (!editing && !todo.important ? ' todo-item__star--hidden' : '')
+          (!editing && todo.important ? ' todo-item__star--on' : '') +
+          (editing || !todo.important ? ' todo-item__star--hidden' : '')
         }
-        tabIndex={editing || todo.important ? 0 : -1} // 편집 중이거나 중요 일정일 때 tab 포커스 허용
-        aria-hidden={!(editing || todo.important)}
+        tabIndex={!editing && todo.important ? 0 : -1}
+        aria-hidden={editing || !todo.important}
         aria-pressed={!!todo.important}
         onMouseDown={(e) => {
-          e.preventDefault() // 편집 중 textarea onBlur(저장)보다 먼저 실행되어 버튼이 사라지는 것 방지
+          e.preventDefault() // 클릭해도 편집 textarea가 blur(저장)되지 않도록
           onToggleImportant(todo.id)
         }}
         aria-label={todo.important ? '중요 해제' : '중요 표시'}

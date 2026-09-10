@@ -87,7 +87,15 @@
   border: none; background: none; cursor: pointer;
   color: var(--text-faint);
   padding: 0 4px; border-radius: 4px;
+  order: 1; /* 비편집: 삭제 슬롯 뒤(아이템 맨 오른쪽 끝)에 위치. order: 작으면 앞, 크면 뒤 */
 }
+/* 편집 중: 별표 슬롯을 삭제 버튼 앞으로 → 삭제 버튼이 맨 끝에 붙음 (별표는 어차피 숨김) */
+.todo-item--editing .todo-item__star { order: 0; }
 .todo-item__star:hover { background: var(--hover); }
 .todo-item__star--on { color: var(--star); }
+/* 평소엔 숨김(자리는 유지), 비편집 아이템에 호버할 때만 나타나 클릭 가능 (편집 중엔 계속 숨김) */
 .todo-item__star--hidden { visibility: hidden; pointer-events: none; }
+.todo-item:not(.todo-item--editing):hover .todo-item__star--hidden {
+  visibility: visible;
+  pointer-events: auto;
+}
