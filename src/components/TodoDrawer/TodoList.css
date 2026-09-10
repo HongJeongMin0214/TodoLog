@@ -25,12 +25,21 @@
   border-color: var(--accent);
 }
 
-/* 내용 텍스트 (클릭하면 인라인 편집) */
+/* 편집 인풋·삭제 버튼은 항상 단일 행이라 높이 고정 (서로 같은 높이) */
+.todo-item__edit,
+.todo-item__delete {
+  height: 24px;
+  box-sizing: border-box;
+}
+
+/* 내용 텍스트: 짧으면 24px, 길면 여러 줄로 늘어남 (겹침 방지) */
 .todo-item__text,
 .todo-item__text--done {
   flex: 1;
   min-width: 0;
-  border: none; background: none; padding: 0;
+  min-height: 24px;
+  display: flex; align-items: center;
+  border: none; background: none; padding: 0 4px;
   font: inherit; text-align: left;
   color: var(--text-h);
   cursor: text;
@@ -45,10 +54,11 @@
   flex: 1;
   min-width: 0;
   border: none; outline: none;
-  background: #fff;
+  background: var(--bg);
   font: inherit;
   color: var(--text-h);
-  padding: 2px 4px;
+  padding: 0 4px;
+  border-radius: 4px;
 }
 
 /* 삭제 버튼 */
@@ -56,6 +66,6 @@
   flex-shrink: 0;
   display: inline-flex; align-items: center;
   border: none; background: none; cursor: pointer;
-  color: var(--text); padding: 2px 6px; border-radius: 4px;
+  color: var(--text); padding: 0 6px; border-radius: 4px;
 }
 .todo-item__delete:hover { background: var(--hover); }
