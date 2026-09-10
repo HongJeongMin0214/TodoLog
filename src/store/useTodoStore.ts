@@ -7,8 +7,14 @@ import type { Todo, TodosByDate } from '../types/todo'
 // 모두 읽으므로 컴포넌트 밖 store에 둔다. (서버 붙기 전까지는 여기서 보관)
 interface TodoState {
   todosByDate: TodosByDate // key: "YYYY-MM-DD"
-  addTodo: (dateKey: string, categoryId: string, text: string) => void
+  addTodo: (
+    dateKey: string,
+    categoryId: string,
+    text: string,
+    important?: boolean,
+  ) => void
   toggleTodo: (dateKey: string, id: string) => void
+  toggleImportant: (dateKey: string, id: string) => void
   editTodo: (dateKey: string, id: string, text: string) => void
   removeTodo: (dateKey: string, id: string) => void
   // 아래 3개는 카테고리 삭제 시 사용. 투두가 여러 날짜에 흩어져 있으므로 전 날짜 버킷을 순회한다.
@@ -25,7 +31,7 @@ const useTodoStore = create<TodoState>()(
     (set, get) => ({
       todosByDate: {},
 
-      addTodo: (dateKey, categoryId, text) => {
+      addTodo: (dateKey, categoryId, text, important = false) => {
         const trimmed = text.trim()
         if (!trimmed) return // 공백만 있는 경우 무시
         const todo: Todo = {
@@ -33,13 +39,18 @@ const useTodoStore = create<TodoState>()(
           text: trimmed,
           done: false,
           categoryId,
+          important,
         }
-        set((state) => ({
-          todosByDate: {
-            ...state.todosByDate, // 다른 날짜 목록은 그대로 두고
-            [dateKey]: [...(state.todosByDate[dateKey] ?? []), todo], // 해당 날짜 배열 끝에 추가
-          },
-        }))
+        set((state) => {
+          const list = state.todosByDate[dateKey] ?? []
+          return {
+            todosByDate: {
+              ...state.todosByDate, // 다른 날짜 목록은 그대로 두고
+              // 중요 일정은 배열 맨 앞, 일반은 맨 뒤 (렌더 정렬과 합쳐져 카테고리 최상단에 노출)
+              [dateKey]: important ? [todo, ...list] : [...list, todo],
+            },
+          }
+        })
       },
 
       toggleTodo: (dateKey, id) => {
@@ -48,6 +59,17 @@ const useTodoStore = create<TodoState>()(
             ...state.todosByDate,
             [dateKey]: (state.todosByDate[dateKey] ?? []).map((t) =>
               t.id === id ? { ...t, done: !t.done } : t,
+            ),
+          },
+        }))
+      },
+
+      toggleImportant: (dateKey, id) => {
+        set((state) => ({
+          todosByDate: {
+            ...state.todosByDate,
+            [dateKey]: (state.todosByDate[dateKey] ?? []).map((t) =>
+              t.id === id ? { ...t, important: !t.important } : t,
             ),
           },
         }))
