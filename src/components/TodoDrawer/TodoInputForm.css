@@ -1,46 +1,91 @@
-.todo-input-form { margin-top: 8px; }
+/* 접힘/펼침: 0fr↔1fr grid로 실제 자동 높이를 부드럽게 전환 (트리거는 위로 접히고 입력 행은 아래로 펼쳐짐) */
+.todo-input-form__fold {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s ease;
+}
+.todo-input-form__fold--open { grid-template-rows: 1fr; }
+.todo-input-form__clip {
+  overflow: hidden;
+  min-height: 0; /* 0fr 트랙에서 자식이 실제로 0까지 줄어들도록 */
+  display: grid;
+  align-content: end; /* 내용을 아래에 고정 → 펼칠 때 위에서 아래로 내려오며 나타남 */
+}
 
-/* input + 별표 버튼 */
-.todo-input-form__field {
+/* 접힘: "+ 일정 추가" 텍스트만, 텍스트 위치는 펼침 상태와 맞춤 */
+.todo-input-form__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 24px;
+  padding: 4px 0 4px 24px; /* 24px: 빈 원(16) + gap(8) 만큼 들여써 할일 행과 좌측 정렬 */
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.todo-input-form__box {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--text-faint);
+  border-radius: 50%;
+  background: none;
+}
+
+/* 펼쳐진 입력 행 — 할일 아이템과 동알*/
+.todo-input-form__row {
   display: flex;
   align-items: center;
-  border: 1px solid transparent;
-  border-radius: 6px;
-}
-.todo-input-form__field:focus-within { /* 자식 요소 중 무언가 포커스 받으면 스타일 적용시킴. */
-  background: var(--bg);
-  border-color: var(--border);
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 2px 8px rgba(0, 0, 0, 0.05);
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 2px dotted var(--border);
+  font-size: 14px;
 }
 
-.todo-input-form input {
+/* 입력 textarea — 할일 편집(textarea)과 동일: 길어지면 다음 줄로 */
+.todo-input-form__edit {
   flex: 1;
   min-width: 0;
+  min-height: 24px;
   box-sizing: border-box;
   border: none;
   outline: none;
-  background: transparent;
+  background: none;
+  font: inherit;
+  line-height: 1.4;
   color: var(--text-h);
-  padding: 8px 10px;
-  font-size: 14px;
+  padding: 0 4px;
+  resize: none;
+  overflow: hidden;
+  overflow-wrap: anywhere;
 }
-.todo-input-form input::placeholder { color: var(--accent); font-weight: bold; }
 
 .todo-input-form__star {
   flex-shrink: 0;
+  height: 24px;
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   border: none;
   background: none;
   cursor: pointer;
   color: var(--text-faint);
-  padding: 6px;
-  margin-right: 4px;
+  padding: 0 4px;
   border-radius: 4px;
-  visibility: hidden;
 }
-.todo-input-form__field:focus-within .todo-input-form__star { visibility: visible; }
 .todo-input-form__star:hover { background: var(--hover); }
 .todo-input-form__star--on { color: var(--star); }
+
+/* 할일 아이템의 삭제 버튼 */
+.todo-input-form__delete-spacer {
+  flex-shrink: 0;
+  width: 26px;
+  height: 24px;
+}

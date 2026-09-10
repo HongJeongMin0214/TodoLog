@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Star } from 'lucide-react'
+import { useLayoutEffect, useRef, useState } from 'react'
+import { Plus, Star } from 'lucide-react'
 import './TodoInputForm.css'
 
 interface TodoInputFormProps {
@@ -7,49 +7,128 @@ interface TodoInputFormProps {
 }
 
 function TodoInputForm({ onAdd }: TodoInputFormProps) {
+  const [expanded, setExpanded] = useState(false) // 접힘(트리거) ↔ 펼침(입력 행)
   const [text, setText] = useState('')
   const [important, setImportant] = useState(false)
+  const editRef = useRef<HTMLTextAreaElement>(null)
 
-  const handleSubmit = (e: React.SubmitEvent) => { //폼 제출 시 일어난 사건(이벤트 정보)을 변수 e라는 이름으로 받아옴
-    e.preventDefault()          // 페이지 새로고침 막기
+  // 할일 편집 textarea와 동일: 내용 길이에 맞춰 높이 자동 조절
+  const autoResize = () => {
+    const el = editRef.current
+    if (!el) return
+    el.style.height = 'auto'
+    el.style.height = `${el.scrollHeight}px`
+  }
+  useLayoutEffect(() => {
+    if (expanded) {
+      autoResize()
+      editRef.current?.focus({ preventScroll: true }) // preventScroll: 펼침 애니메이션 중 스크롤 점프 방지
+    }
+  }, [expanded])
+
+  const collapse = () => {
+    setText('')
+    setImportant(false)
+    setExpanded(false)
+  }
+
+  const submit = () => {
     const trimmed = text.trim()
     if (!trimmed) return
     onAdd(trimmed, important)
-    setText('')                 // 입력창 비우기
-    setImportant(false)         // 별표도 초기화
+    setText('')
+    setImportant(false)
+    // 열린 채 유지 → 연속 입력. 높이·포커스 원상복구
+    requestAnimationFrame(() => {
+      autoResize()
+      editRef.current?.focus({ preventScroll: true })
+    })
   }
 
   return (
-    <form className="todo-input-form" onSubmit={handleSubmit}>
-      <div className="todo-input-form__field">
-        <input
-          type="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)} // e.target: 이벤트가 발생한 해당 입력창 태그(input) 자체
-          onBlur={() => {
-            setText('') // 제출 안 하고 딴 곳 클릭하면 입력값 초기화 (placeholder 다시 보이게)
-            setImportant(false)
-          }}
-          placeholder=" + 일정 추가"
-        />
-
-        <button
-          type="button"
-          className={
-            'todo-input-form__star' +
-            (important ? ' todo-input-form__star--on' : '')
-          }
-          aria-pressed={important}
-          aria-label={important ? '중요 해제' : '중요 일정으로 추가'}
-          onMouseDown={(e) => {
-            e.preventDefault() // 별표 클릭했을 떄 입력창 닫히지 않게 함
-            setImportant((v) => !v)
-          }}
-        >
-          <Star size={16} fill={important ? 'currentColor' : 'none'} />
-        </button>
+    <div className="todo-input-form">
+      {/* 접힘: "+ 일정 추가" — 펼치면 위로 접히며 사라짐 */}
+      <div
+        className={
+          'todo-input-form__fold' +
+          (expanded ? '' : ' todo-input-form__fold--open')
+        }
+      >
+        <div className="todo-input-form__clip">
+          <button
+            type="button"
+            className="todo-input-form__trigger"
+            tabIndex={expanded ? -1 : 0}
+            onClick={() => setExpanded(true)}
+          >
+            <Plus size={14} /> 일정 추가
+          </button>
+        </div>
       </div>
-    </form>
+
+      {/* 펼침: 아래로 펼쳐지는 할일 행 */}
+      <div
+        className={
+          'todo-input-form__fold' +
+          (expanded ? ' todo-input-form__fold--open' : '')
+        }
+        aria-hidden={!expanded}
+      >
+        <div className="todo-input-form__clip">
+          <form
+            className="todo-input-form__row"
+            onSubmit={(e) => {
+              e.preventDefault()
+              submit()
+            }}
+          >
+            <span className="todo-input-form__box" aria-hidden />
+
+            <textarea
+              ref={editRef}
+              className="todo-input-form__edit"
+              rows={1}
+              value={text}
+              tabIndex={expanded ? 0 : -1}
+              onChange={(e) => {
+                setText(e.target.value)
+                autoResize()
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault() // Enter=추가 (줄바꿈 삽입 안 함)
+                  submit()
+                }
+                if (e.key === 'Escape') collapse()
+              }}
+              onBlur={() => {
+                if (!text.trim()) collapse() // 빈 채로 벗어나면 접힘
+              }}
+            />
+
+            {/* 할일 아이템의 (숨겨진) 삭제 버튼 자리만큼 폭 확보 → 별표가 아이템처럼 맨 오른쪽 끝에 오고 크기도 동일 */}
+            <span className="todo-input-form__delete-spacer" aria-hidden />
+
+            <button
+              type="button"
+              className={
+                'todo-input-form__star' +
+                (important ? ' todo-input-form__star--on' : '')
+              }
+              tabIndex={expanded ? 0 : -1}
+              aria-pressed={important}
+              aria-label={important ? '중요 해제' : '중요 일정으로 추가'}
+              onMouseDown={(e) => {
+                e.preventDefault() // 클릭해도 textarea가 blur(접힘)되지 않도록
+                setImportant((v) => !v)
+              }}
+            >
+              <Star size={14} fill={important ? 'currentColor' : 'none'} />
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   )
 }
 
