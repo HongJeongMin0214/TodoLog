@@ -1,7 +1,7 @@
 .category-nav {
   position: relative;
   margin: 12px 0;
-  border-bottom: 1px solid var(--accent); /* 바 아래 얇은 긴 줄 */
+  border-bottom: 1.5px solid var(--border);
 }
 
 .category-nav__scroll {
@@ -33,7 +33,7 @@
   border-radius: 0;
 }
 .category-nav__tab--active {
-  box-shadow: inset 0 -2px 0 var(--text-h); /* 선택된 탭 아래 검은 2px 밑줄 (레이아웃 영향 없음) */
+  box-shadow: inset 0 -2px 0 var(--accent);
 }
 
 .category-nav__add { color: var(--text); }

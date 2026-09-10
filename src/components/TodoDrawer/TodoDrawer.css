@@ -58,6 +58,8 @@
 
 .todo-drawer__date {
   display: flex; align-items: baseline; justify-content: space-between;
+  line-height: 1.4;
+  padding: 2px 0 4px;
 }
 .todo-drawer__today {
   font-size: 12px; color: var(--accent); font-weight: bold;
