@@ -1,6 +1,7 @@
 .todo-list { list-style: none; margin: 0; padding: 0; }
 
 .todo-item {
+  position: relative; /* 삭제 버튼을 여기 기준으로 오른쪽에 절대 위치 */
   display: flex;
   align-items: center;
   gap: 8px; padding: 4px 0;
@@ -23,12 +24,6 @@
 .todo-item__box[aria-checked='true'] { /* 체크되면 배경·테두리를 강조색으로 */
   background: var(--text-faint);
   border-color: var(--text-faint);
-}
-
-/* 삭제 버튼 높이 고정 (한 줄 아이콘 버튼) */
-.todo-item__delete {
-  height: 24px;
-  box-sizing: border-box;
 }
 
 /* 내용 텍스트: 짧으면 24px, 길면 여러 줄로 늘어남 (겹침 방지) */
@@ -67,18 +62,25 @@
   overflow-wrap: anywhere;
 }
 
-/* 삭제 버튼 */
+/* 삭제 버튼: position:absolute으로 별 버튼의 오른쪽 위에 겹쳐 놓음
+   → 편집 진입/이탈해도 textarea 폭이 이 버튼 때문에 변하는 일이 없음(항상 동일 폭) */
 .todo-item__delete {
-  flex-shrink: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%); /* 수직정렬 */
+  height: 24px;
+  box-sizing: border-box;
   display: inline-flex; align-items: center;
-  border: none; background: none; cursor: pointer;
+  border: none; background: var(--bg); cursor: pointer; /* 불투명 배경: 별표 버튼 위에 겹치질 때, 글자를 가리지 않게하기 위함 */
   color: var(--text); padding: 0 6px; border-radius: 4px;
+  transition: opacity 0.15s ease;
 }
 .todo-item__delete:hover { background: var(--hover); }
-/* 비편집 상태: 보이지 않지만 레이아웃엔 남아 편집 전환 시 편집 영역 폭이 고정됨 */
-.todo-item__delete--hidden { visibility: hidden; pointer-events: none; }
+/* 비편집 상태: 투명하게 숨김 */
+.todo-item__delete--hidden { opacity: 0; pointer-events: none; }
 
-/* 별표 버튼 (중요 일정): 삭제 버튼과 같은 높이·자리 예약 규칙 */
+/* 별표 버튼 (중요 일정) */
 .todo-item__star {
   flex-shrink: 0;
   height: 24px;
@@ -87,10 +89,7 @@
   border: none; background: none; cursor: pointer;
   color: var(--text-faint);
   padding: 0 4px; border-radius: 4px;
-  order: 1; /* 비편집: 삭제 슬롯 뒤(아이템 맨 오른쪽 끝)에 위치. order: 작으면 앞, 크면 뒤 */
 }
-/* 편집 중: 별표 슬롯을 삭제 버튼 앞으로 → 삭제 버튼이 맨 끝에 붙음 (별표는 어차피 숨김) */
-.todo-item--editing .todo-item__star { order: 0; }
 .todo-item__star:hover { background: var(--hover); }
 .todo-item__star--on { color: var(--star); }
 /* 평소엔 숨김(자리는 유지), 비편집 아이템에 호버할 때만 나타나 클릭 가능 (편집 중엔 계속 숨김) */
