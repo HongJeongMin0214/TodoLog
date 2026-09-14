@@ -5,6 +5,24 @@ import type { Category } from '../types/todo'
 // 항상 존재하는 기본 카테고리. 삭제 불가, 이름 변경은 허용
 export const DEFAULT_CATEGORY_ID = 'default'
 
+// 카테고리 색상 프리셋 (ColorPalette가 이 목록을 스와치로 보여줌). 마지막(회색)을 기본색으로 사용
+export const CATEGORY_COLORS = [
+  { name: '연블루', value: '#7986CC' },
+  { name: '빨강', value: '#D44245' },
+  { name: '핑크', value: '#F17298' },
+  { name: '주황', value: '#EA9E5A' },
+  { name: '노랑', value: '#fccb06ff' },
+  { name: '청록', value: '#5FC59D' },
+  { name: '초록', value: '#69B054' },
+  { name: '민트', value: '#60D2D2' },
+  { name: '하늘', value: '#81AAE8' },
+  { name: '파랑', value: '#3182F6' },
+  { name: '연보라', value: '#B192E7' },
+  { name: '회색', value: '#A9A9A9' },
+] as const
+export const DEFAULT_CATEGORY_COLOR: string =
+  CATEGORY_COLORS[CATEGORY_COLORS.length - 1].value
+
 // 카테고리 목록과 그 CRUD.
 // TodoDrawer뿐 아니라 메인 패널의 캘린더 화면·페이지 상단 카테고리 바에서도
 // 함께 읽으므로 컴포넌트 밖 store에 둔다. (서버 붙기 전까지는 여기서 보관)
@@ -21,9 +39,11 @@ interface CategoryState {
 // 함수(액션)는 직렬화되지 않으므로 자동으로 제외되고 상태 값만 저장된다.
 // (4단계에서 서버 연결 시 이 persist 래퍼를 걷어내고 React Query로 대체)
 const useCategoryStore = create<CategoryState>()(
-  persist(
+  persist( // persist: Zustand 상태 관리 라이브러리에서 상태를 브라워저, 로컬 스토리지, 세션 스토리지 등에 영구적으로 저장하고 관리할 수 있게 해주는 미들웨어
     (set) => ({
-      categories: [{ id: DEFAULT_CATEGORY_ID, name: '할 일' }],
+      categories: [
+        { id: DEFAULT_CATEGORY_ID, name: '할 일', color: DEFAULT_CATEGORY_COLOR },
+      ],
 
       addCategory: (name) => {
         const trimmed = name.trim()
