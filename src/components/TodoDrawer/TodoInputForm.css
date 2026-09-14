@@ -23,7 +23,7 @@
   align-items: center;
   gap: 4px;
   min-height: 24px;
-  padding: 4px 0 4px 24px; /* 24px: 빈 원(16) + gap(8) 만큼 들여써 할일 행과 좌측 정렬 */
+  padding: 10px 0 10px 24px; /* 24px: 빈 원(16) + gap(8) 만큼 들여써 할일 행과 좌측 정렬 */
   border: none;
   background: none;
   cursor: pointer;
@@ -49,7 +49,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 0;
+  padding: 10px 0;
   border-bottom: 2px dotted var(--border);
   font-size: 14px;
 }

@@ -4,7 +4,7 @@
   position: relative; /* 삭제 버튼을 여기 기준으로 오른쪽에 절대 위치 */
   display: flex;
   align-items: center;
-  gap: 8px; padding: 4px 0;
+  gap: 8px; padding: 10px 0;
   font-size: 14px;
   border-bottom: 2px dotted var(--border);
 }
