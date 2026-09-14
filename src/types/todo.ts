@@ -1,7 +1,7 @@
 export interface Category {
     id: string;
     name: string;
-    color?: string; // 카테고리 색상 (hex). 이전에 저장된 카테고리엔 없을 수 있어 옵셔널 → 읽는 쪽에서 기본색으로 방어
+    color?: string;
 }
 
 export interface Todo {

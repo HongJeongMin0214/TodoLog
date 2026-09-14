@@ -28,8 +28,9 @@ export const DEFAULT_CATEGORY_COLOR: string =
 // 함께 읽으므로 컴포넌트 밖 store에 둔다. (서버 붙기 전까지는 여기서 보관)
 interface CategoryState {
   categories: Category[]
-  addCategory: (name: string) => Category | null // 이름이 빈 값이면 null 반환
+  addCategory: (name: string, color?: string) => Category | null // 이름이 빈 값이면 null 반환
   renameCategory: (id: string, name: string) => void
+  setCategoryColor: (id: string, color: string) => void
   removeCategory: (id: string) => void
 }
 // set((state) => ({ ... }))로 상태를 갱신. 
@@ -45,10 +46,14 @@ const useCategoryStore = create<CategoryState>()(
         { id: DEFAULT_CATEGORY_ID, name: '할 일', color: DEFAULT_CATEGORY_COLOR },
       ],
 
-      addCategory: (name) => {
+      addCategory: (name, color) => {
         const trimmed = name.trim()
         if (!trimmed) return null
-        const category: Category = { id: crypto.randomUUID(), name: trimmed }
+        const category: Category = {
+          id: crypto.randomUUID(),
+          name: trimmed,
+          color: color ?? DEFAULT_CATEGORY_COLOR, // 색을 안 정했으면 기본색
+        }
         // 기존 상태(categories 배열)를 복사하고 새 카테고리를 추가한 새 배열로 상태를 갱신
         set((state) => ({ categories: [...state.categories, category] }))
         return category
@@ -60,6 +65,14 @@ const useCategoryStore = create<CategoryState>()(
         set((state) => ({
           categories: state.categories.map((c) =>
             c.id === id ? { ...c, name: trimmed } : c,
+          ),
+        }))
+      },
+
+      setCategoryColor: (id, color) => {
+        set((state) => ({
+          categories: state.categories.map((c) =>
+            c.id === id ? { ...c, color } : c,
           ),
         }))
       },
