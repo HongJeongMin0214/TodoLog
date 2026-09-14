@@ -43,6 +43,7 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
   const categories = useCategoryStore((s) => s.categories)
   const addCategory = useCategoryStore((s) => s.addCategory)
   const renameCategory = useCategoryStore((s) => s.renameCategory)
+  const setCategoryColor = useCategoryStore((s) => s.setCategoryColor)
   const removeCategory = useCategoryStore((s) => s.removeCategory)
 
   // [{ id: "1", ... }, { id: "2", ... }] 
@@ -83,6 +84,7 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
           onSelect={setSelectedCategoryId}
           onAddCategory={addCategory}
           onRenameCategory={renameCategory}
+          onSetColor={setCategoryColor}
           onRequestDelete={setPendingDeleteId}
         />
 

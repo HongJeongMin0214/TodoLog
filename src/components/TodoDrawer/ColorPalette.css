@@ -1,8 +1,6 @@
-/* 트리거(원형 색상 버튼) 아래에 뜨는 팝오버. 부모가 position:relative여야 함 */
+/* 팝오버 카드 자체의 모양만 담당. 화면상 위치(트리거 아래 어디)는 이 컴포넌트를 담는
+   쪽(예: CategoryNav의 .category-nav__color-picker-anchor)이 position으로 잡아준다. */
 .color-palette {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
   z-index: 20;
   display: grid;
   grid-template-columns: repeat(4, 20px);

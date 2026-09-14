@@ -77,3 +77,20 @@
   color: #e5484d;
   background: rgba(229, 72, 77, 0.1);
 }
+
+/* 색상 원형 버튼 (수정 중: 삭제 버튼 왼쪽 / 추가 중: 이름 입력칸 오른쪽) */
+.category-nav__edit .category-nav__color {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.category-nav__edit .category-nav__color:hover { filter: brightness(0.92); }
+
+/* 색상 팝오버 위치 기준점. left/top은 트리거 위치에 맞춰 JS가 인라인으로 지정 */
+.category-nav__color-picker-anchor {
+  position: absolute;
+}
