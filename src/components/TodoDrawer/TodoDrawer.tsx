@@ -24,6 +24,11 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
   const setSelectedDate = useSelectionStore((s) => s.setSelectedDate)
   const selectedCategoryId = useSelectionStore((s) => s.selectedCategoryId)
   const setSelectedCategoryId = useSelectionStore((s) => s.setSelectedCategoryId)
+  // "지금 보고 있는 달": 캘린더 화면과 공유해서 미니 캘린더도 같이 동기화됨
+  const viewedYear = useSelectionStore((s) => s.viewedYear)
+  const viewedMonth = useSelectionStore((s) => s.viewedMonth)
+  const goToPrevMonth = useSelectionStore((s) => s.goToPrevMonth)
+  const goToNextMonth = useSelectionStore((s) => s.goToNextMonth)
   // 어떤 카테고리를 삭제할지 기억(pending)해야 함. DeleteCategoryDialog을 띄워 사용자의 선택을 기다려야 하기 때문
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null) // 삭제 확인 대기 중인 카테고리 id (null이면 대화상자 닫힘)
   const todosByDate = useTodoStore((s) => s.todosByDate)
@@ -118,7 +123,14 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
           />
         </div>
 
-        <MiniCalendar selected={selectedDate} onSelect={setSelectedDate} />
+        <MiniCalendar
+          selected={selectedDate}
+          onSelect={setSelectedDate}
+          viewedYear={viewedYear}
+          viewedMonth={viewedMonth}
+          onPrevMonth={goToPrevMonth}
+          onNextMonth={goToNextMonth}
+        />
       </div>
 
       {pendingCategory && (
