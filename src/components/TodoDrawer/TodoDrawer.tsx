@@ -3,6 +3,7 @@ import './TodoDrawer.css'
 import useTodoStore from '../../store/useTodoStore'
 import useCategoryStore, {
   DEFAULT_CATEGORY_ID,
+  DEFAULT_CATEGORY_COLOR,
 } from '../../store/useCategoryStore'
 import useSelectionStore, { ALL_CATEGORIES } from '../../store/useSelectionStore'
 import { todayKey, formatShortDate } from '../../lib/date'
@@ -91,7 +92,14 @@ function TodoDrawer({ isOpen }: TodoDrawerProps) {
         <div className="todo-drawer__scroll">
           {visibleCategories.map((category) => (
             <section key={category.id} className="todo-drawer__category">
-              <span className="todo-drawer__category-name">{category.name}</span>
+              <span className="todo-drawer__category-name">
+                <span
+                  className="todo-drawer__category-swatch"
+                  style={{ background: category.color ?? DEFAULT_CATEGORY_COLOR }}
+                  aria-hidden
+                />
+                {category.name}
+              </span>
               <TodoList
                 todos={todos
                   .filter((t) => t.categoryId === category.id && !t.done)
