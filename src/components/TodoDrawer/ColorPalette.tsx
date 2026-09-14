@@ -43,6 +43,9 @@ function ColorPalette({ value, onSelect, onClose }: ColorPaletteProps) {
           style={{ background: color }}
           aria-label={name}
           aria-selected={color === value}
+          // preventDefault: 스와치 클릭 시 포커스가 이동해 카테고리 이름 input이 blur(취소)되는 것을 막음
+          // (막지 않으면 blur로 편집/추가 모드가 먼저 닫히면서 이 버튼도 같이 사라져 onClick이 실행되지 않음)
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => {
             onSelect(color)
             onClose()
