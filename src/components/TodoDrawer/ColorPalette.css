@@ -1,0 +1,27 @@
+/* 팝오버 카드 자체의 모양만 담당. 화면상 위치(트리거 아래 어디)는 이 컴포넌트를 담는
+   쪽(예: CategoryNav의 .category-nav__color-picker-anchor)이 position으로 잡아준다. */
+.color-palette {
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(4, 20px);
+  gap: 6px;
+  padding: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.color-palette__swatch {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.color-palette__swatch--selected {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--text-h);
+}

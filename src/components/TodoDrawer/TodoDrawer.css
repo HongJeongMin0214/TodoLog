@@ -67,5 +67,12 @@
 
 .todo-drawer__category { margin-top: 16px; }
 .todo-drawer__category-name {
+  display: flex; align-items: center; gap: 6px;
   margin: 0 0 6px; font-size: 14px; color: var(--text-h);
+}
+/* 카테고리 색 막대 (세로 바) */
+.todo-drawer__category-swatch {
+  flex-shrink: 0;
+  width: 3px; height: 12px;
+  border-radius: 999px;
 }

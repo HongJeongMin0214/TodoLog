@@ -1,6 +1,7 @@
-import { useState, useRef, useLayoutEffect } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import type { Todo } from '../../types/todo'
 import { Check, Star, X } from 'lucide-react'
+import useAutoGrowTextarea from '../../hooks/useAutoGrowTextarea'
 
 interface TodoItemProps {
   todo: Todo
@@ -18,21 +19,14 @@ function TodoItem({
   onRemove,
 }: TodoItemProps) {
   const [editing, setEditing] = useState(false)
-  const [draft, setDraft] = useState(todo.text) // draft: 편집 중인 텍스트 (인풋에 바인딩). setDraft: 편집 완료 시 onEdit 호출 후 draft를 todo.text로 초기화
-  const editRef = useRef<HTMLTextAreaElement>(null) // 편집 중인 textarea에 포커스 주기 위해 ref 사용
+  const [draft, setDraft] = useState(todo.text) // draft(초안): 편집 중인 텍스트 (인풋에 바인딩). setDraft: 편집 완료 시 onEdit 호출 후 draft를 todo.text로 초기화
+  const { ref: editRef, resize: autoResize } = useAutoGrowTextarea()
 
-  // textarea 높이를 내용에 맞춤 (비편집 버튼처럼 여러 줄로 늘어나도록)
-  const autoResize = () => {
-    const el = editRef.current // 편집 중인 textarea
-    if (!el) return // ref가 아직 연결되지 않았으면 종료
-    el.style.height = 'auto' // 높이를 auto로 초기화 후 scrollHeight를 읽어야 정확한 높이 계산 가능
-    el.style.height = `${el.scrollHeight}px`
-  }
-  useLayoutEffect(() => { // useLayoutEffect는 useEffect보다 먼저 실행되어 편집 모드 전환 시 textarea 높이가 깜빡임 없이 바로 적용됨
+  useLayoutEffect(() => { // useLayoutEffect는 paint 전에 실행 → 편집 전환 시 textarea 높이가 깜빡임 없이 적용됨
     if (editing) autoResize()
-  }, [editing]) // []는 의존성 배열(감시자 역할)로 editing이 바뀔 때마다 실행됨
+  }, [editing, autoResize])
 
-  const startEdit = () => {
+  const startEdit = () => { 
     setDraft(todo.text)
     setEditing(true)
   }
@@ -48,7 +42,7 @@ function TodoItem({
   }
 
   return (
-    <li className="todo-item">
+    <li className={'todo-item' + (editing ? ' todo-item--editing' : '')}>
       {/* 체크박스: 클릭하면 완료 토글 */}
       <button
         type="button"
@@ -91,19 +85,22 @@ function TodoItem({
         </button>
       )}
 
-      {/* 별표(중요 일정): 비중요일 땐 자리만 예약(visibility:hidden)해 편집 전환 시 폭 점프 방지 */}
+      {/* 별표(중요 일정): 항상 렌더해 자리만 예약(폭 점프 방지).
+          - 비편집 + 중요: 노란 채움 별 상시 표시
+          - 비편집 + 비중요: 숨김, 아이템 호버 시에만 노출
+          - 편집 중: 항상 숨김 (레이아웃 자리는 유지) */}
       <button
         type="button"
         className={
           'todo-item__star' +
-          (todo.important ? ' todo-item__star--on' : '') +
-          (!editing && !todo.important ? ' todo-item__star--hidden' : '')
+          (!editing && todo.important ? ' todo-item__star--on' : '') +
+          (editing || !todo.important ? ' todo-item__star--hidden' : '')
         }
-        tabIndex={editing || todo.important ? 0 : -1} // 편집 중이거나 중요 일정일 때 tab 포커스 허용
-        aria-hidden={!(editing || todo.important)}
+        tabIndex={!editing && todo.important ? 0 : -1}
+        aria-hidden={editing || !todo.important}
         aria-pressed={!!todo.important}
         onMouseDown={(e) => {
-          e.preventDefault() // 편집 중 textarea onBlur(저장)보다 먼저 실행되어 버튼이 사라지는 것 방지
+          e.preventDefault() // 클릭해도 편집 textarea가 blur(저장)되지 않도록
           onToggleImportant(todo.id)
         }}
         aria-label={todo.important ? '중요 해제' : '중요 표시'}
@@ -112,14 +109,14 @@ function TodoItem({
         <Star size={14} fill={todo.important ? 'currentColor' : 'none'} />
       </button>
 
-      {/* 삭제 버튼: 편집 중이 아닐 땐 자리만 예약(visibility:hidden)해 편집 전환 시 폭 점프 방지 */}
+      {/* 삭제 버튼*/}
       <button
         type="button"
         className={editing ? 'todo-item__delete' : 'todo-item__delete todo-item__delete--hidden'}
         tabIndex={editing ? 0 : -1} // 편집 중이 아닐 땐 포커스 불가. 0: 편집 중이면 탭 순서에 포함, -1: 편집 중이 아니면 탭 순서에서 제외
         aria-hidden={!editing}
         onMouseDown={(e) => {
-          e.preventDefault() // mousedown에서 preventDefault: 인풋 onBlur(저장)보다 먼저 실행되어 버튼이 사라지는 것 방지
+          e.preventDefault() // mousedown에서 preventDefault: textarea에서의 onBlur(저장)보다 먼저 실행되어 버튼이 사라지는 것 방지
           onRemove(todo.id)
         }}
         aria-label="삭제"
